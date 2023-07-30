@@ -1,6 +1,3 @@
-
-const g=.2;
-
 export class Physical{
     constructor(px=0,py=0,vx=0,vy=0,ax=0,ay=0){
         this.px = px;
