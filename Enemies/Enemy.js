@@ -12,11 +12,12 @@ export class Enemy extends Drawable {
     renderAtX,
     renderAtY,
     scale,
-    foe
+    foe,
+    options={score:10}
   ) {
     super(canvas, sequence, animationSpeed, renderAtX, renderAtY, scale);
     this.index = 0;
-
+    this.options=options;
     this.vx = 0;
     this.vy = 0;
     this.gameFrame = 0;
@@ -27,9 +28,15 @@ export class Enemy extends Drawable {
     CollisionDetector.detectCollesion(this, foe, this.collisionEvent);
     this.exploded=false;
   }
+  
+  isoutOfScreen(){
+    return (this.px < -this.sequence.frameWidth || this.py < -this.sequence.frameHeight || this.px > CANVAS_WIDTH+this.sequence.frameWidth || this.py > CANVAS_HEIGHT+this.sequence.frameHeight)
+  }
 
-
-
+  update() {
+    this.outOfScreen=this.isoutOfScreen();
+    super.update();
+  }
   setpositionX(x) {
     this.px = x;
   }

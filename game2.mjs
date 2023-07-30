@@ -8,20 +8,23 @@ import { Worm } from "./Enemies/Worm.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-
+ctx.font="50px Impact";
+const timeInterval=1000;
 let EnemyAs = [];
-setInterval(() => {
-  for (let i = 0; i < 1; i++) {
-    
-    EnemyAs.push(new Ghost( ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
-    EnemyAs.push(new EnemyA(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
-    EnemyAs.push(new EnemyB(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
-    EnemyAs.push(new EnemyD(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
-    EnemyAs.push(new Worm(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,1,puppy));
 
-    
-  }
-}, 1000);
+
+
+setInterval(()=>{
+  EnemyAs.push(new Ghost( ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
+  EnemyAs.push(new EnemyA(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
+},1200)
+setInterval(()=>{
+  EnemyAs.push(new EnemyD(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
+  EnemyAs.push(new Worm(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,2,puppy));
+},5000)
+setInterval(()=>{
+  EnemyAs.push(new EnemyB(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
+},400)
 
 let bgs = getBgs(ctx);
 
@@ -30,25 +33,39 @@ let booms= [];
 for(let i=0;i<50;i++){
   booms.push({isActive:false,explosion:new Explosion(ctx,0.2,0,0,0.2)})
 }
-function animate() {
+
+let score=0;
+let passed=0,lastTime=0;
+function animate(timeStamp) {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   bgs.forEach((bg) => {
     bg.puppySpeed = puppy.vx;
     bg.update();
     bg.draw();
   });
-
+  let deltaTime=timeStamp-lastTime;
+  lastTime=timeStamp;
+  passed+=deltaTime
   EnemyAs.forEach((enemy) => {
     enemy.animate();
   });
   booms.forEach((boom) => {
     boom.isActive && boom.explosion.animate();
-  })
-  puppy.animate();
+  });
 
+  ctx.fillStyle = "black";
+
+  ctx.fillText("Score: "+score, 8, 48);
+  ctx.fillStyle = "white";
+  ctx.fillText("Score: "+score, 10, 50);
+  if(passed>timeInterval){
+    EnemyAs=EnemyAs.filter((enemy) => !enemy.outOfScreen)
+  }
+  puppy.animate();
+  
   requestAnimationFrame(animate);
 }
-animate();
+animate(0);
 
 //Collision
 
@@ -59,6 +76,7 @@ document.addEventListener("collision", function (e) {
     ex.explosion.setPosition(en.px, en.py);
     ex.explosion.setScale(en.physicalWidth*1.2/ex.explosion.sequence.frameWidth );
     ex.isActive = true;
+    score+=en.options.score;
     EnemyAs = EnemyAs.filter((el) => el != en);
     delete e.detail.whoami;
     setTimeout(() => {
