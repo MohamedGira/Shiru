@@ -19,10 +19,10 @@ class Drawable extends Physical {
     this.animationSpeed = animationSpeed;
     this.scale = scale;
     this.index = 0;
+    this.physicalWidth = (this.sequence.frameWidth - this.sequence.whiteSpaceX)*this.scale;
+    this.physicalHeight = (this.sequence.frameHeight- this.sequence.whiteSpaceY)*this.scale;
   }
-
   draw() {
-  
     this.ctx.drawImage(
       this.sequence.image,
       this.sequence.frames[
