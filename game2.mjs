@@ -1,8 +1,10 @@
 import { puppy } from "./dog.js";
-import { EnemyA, EnemyB, EnemyC, EnemyD } from "./Enemy.js";
+import { EnemyA, EnemyB, EnemyD } from "./Enemies/Enemy.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
 import { getBgs } from "./Layer.js";
 import { Explosion } from "./Explosion.js";
+import { Ghost } from "./Enemies/Ghost.js";
+import { Worm } from "./Enemies/Worm.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -10,10 +12,14 @@ const ctx = canvas.getContext("2d");
 let EnemyAs = [];
 setInterval(() => {
   for (let i = 0; i < 1; i++) {
-    EnemyAs.push(EnemyB.createEnemy(ctx, puppy));
-    EnemyAs.push(EnemyA.createEnemy(ctx, puppy));
-    EnemyAs.push(EnemyC.createEnemy(ctx, puppy));
-    EnemyAs.push(EnemyD.createEnemy(ctx, puppy));
+    
+    EnemyAs.push(new Ghost( ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
+    EnemyAs.push(new EnemyA(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
+    EnemyAs.push(new EnemyB(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
+    EnemyAs.push(new EnemyD(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,0.3,puppy));
+    EnemyAs.push(new Worm(ctx,Math.random(),Math.random()*CANVAS_WIDTH,Math.random()*CANVAS_HEIGHT,1,puppy));
+
+    
   }
 }, 1000);
 
@@ -51,7 +57,7 @@ document.addEventListener("collision", function (e) {
   if (en && puppy.state == "roll") {
     let ex = booms[booms.findIndex((el) => !el.isActive)];
     ex.explosion.setPosition(en.px, en.py);
-    ex.explosion.setScale(en.scale*1.5);
+    ex.explosion.setScale(en.physicalWidth*1.2/ex.explosion.sequence.frameWidth );
     ex.isActive = true;
     EnemyAs = EnemyAs.filter((el) => el != en);
     delete e.detail.whoami;
