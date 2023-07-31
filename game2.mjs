@@ -1,4 +1,3 @@
-import { puppy } from "./Dog.js";
 import { Enemy, EnemyA, EnemyB, EnemyD } from "./Enemies/Enemy.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
 import { getBgs } from "./Layer.js";
@@ -8,6 +7,9 @@ import { Worm } from "./Enemies/Worm.js";
 import { Trail } from "./Trail.js";
 import { showMessage } from "./utils/showMessage.js";
 import { Heart } from "./Heart.js";
+import { InputHandler } from "./utils/InputHandler.js";
+import { puppy } from "./Dog/dog.js";
+import { states } from "./Dog/States/State.js";
 
 const canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
@@ -20,17 +22,8 @@ myFont.load().then(function (font) {
   document.fonts.add(font);
 });
 
-let music = new Audio("./assets/sounds/the_field_of_dreams.mp3");
-export let play=false;
-document.getElementById('play').addEventListener("click", () => {
-  play=true
-  music.volume=.1
-  music.play();
-  animate(0);
-  !continueAnimating&&location.reload()
-});
 
-music.loop = true;
+
 setInterval(() => {
   EnemyAs.push(
     new Ghost(
@@ -155,7 +148,7 @@ function animate(timeStamp) {
     EnemyAs = EnemyAs.filter((enemy) => !enemy.outOfScreen);
   }
   puppy.animate();
-  if (puppy.state == "roll") {
+  if (puppy.currentStateIndex==states.ROLLING) {
     let trail = trailsPool[trailsPool.findIndex((el) => !el.isActive)];
     if (trail) {
       trail.object.setPosition(
@@ -170,7 +163,7 @@ function animate(timeStamp) {
     }
   }
   puppy.lives.draw();
-  if (puppy.state == "die") {
+  if (puppy.currentStateIndex==states.DYING) {
     puppy.ax = 0;
     showMessage(ctx, `Game Over`, {
       font: "100px Pixels",
@@ -180,13 +173,13 @@ function animate(timeStamp) {
       color: "red",
       shadowColor: "black",
     });
-    document.getElementById('play').innerHTML='Try Again'
+    document.getElementById("play").innerHTML = "Try Again";
   }
-  if (puppy.state == "die" && puppy.isGrounded) {
+  if (puppy.currentStateIndex==states.DYING && puppy.isGrounded) {
     puppy.vx = -4;
   }
   if (
-    puppy.state == "die" &&
+    puppy.currentStateIndex==states.DYING &&
     Math.floor(puppy.index * puppy.animationSpeed) ==
       puppy.sequence.frames.length - 1
   ) {
@@ -194,11 +187,13 @@ function animate(timeStamp) {
   }
   continueAnimating && requestAnimationFrame(animate);
 }
+animate(0);
+
 //Collision
 
 document.addEventListener("collision", function (e) {
   let en = e.detail.whoami;
-  if (en && puppy.state != "die") {
+  if (en && puppy.currentStateIndex!=states.DYING) {
     let ex = boomsPool[boomsPool.findIndex((el) => !el.isActive)];
     ex.object.setPosition(en.px, en.py);
     ex.object.setScale(
@@ -207,13 +202,13 @@ document.addEventListener("collision", function (e) {
     ex.isActive = true;
     EnemyAs = EnemyAs.filter((el) => el != en);
     if (en instanceof Enemy) {
-      if (puppy.state == "roll") score += en.options.score;
+      if (puppy.currentStateIndex==states.ROLLING) score += en.options.score;
       else {
         puppy.lives.decrementLives();
         if (puppy.lives.lives <= 0) {
           puppy.index = 0;
           puppy.animationSpeed = 0.18;
-          puppy.state = "die";
+          puppy.setState(states.DYING);
           let i = 0;
           setTimeout(() => {
             continueAnimating = false;
@@ -226,3 +221,5 @@ document.addEventListener("collision", function (e) {
     delete e.detail.whoami;
   }
 });
+
+let c = new InputHandler();
