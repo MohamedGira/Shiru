@@ -26,23 +26,27 @@ class Drawable extends Physical {
       (this.sequence.frameHeight - this.sequence.whiteSpaceY) * this.scale;
   }
   draw() {
-    this.ctx.drawImage(
-      this.sequence.image,
-      this.sequence.frames[
-        Math.floor(this.index * this.animationSpeed) %
-          this.sequence.frames.length
-      ].x,
-      this.sequence.frames[
-        Math.floor(this.index * this.animationSpeed) %
-          this.sequence.frames.length
-      ].y,
-      this.sequence.frameWidth,
-      this.sequence.frameHeight,
-      this.px,
-      this.py,
-      this.sequence.frameWidth * this.scale,
-      this.sequence.frameHeight * this.scale
-    );
+    try {
+      this.ctx.drawImage(
+        this.sequence.image,
+        this.sequence.frames[
+          Math.floor(this.index * this.animationSpeed) %
+            this.sequence.frames.length
+        ].x,
+        this.sequence.frames[
+          Math.floor(this.index * this.animationSpeed) %
+            this.sequence.frames.length
+        ].y,
+        this.sequence.frameWidth,
+        this.sequence.frameHeight,
+        this.px,
+        this.py,
+        this.sequence.frameWidth * this.scale,
+        this.sequence.frameHeight * this.scale
+      );
+    } catch (e) {
+      console.log(e);
+    }
   }
   update() {
     this.index == 999999999999999 ? (this.index = 0) : 0;
@@ -63,12 +67,17 @@ class Drawable extends Physical {
     }, speedMs);
   }
   isoutOfScreen() {
-    return (
-      this.px < -this.sequence.frameWidth ||
-      this.py < -this.sequence.frameHeight ||
-      this.px > CANVAS_WIDTH + this.sequence.frameWidth ||
-      this.py > CANVAS_HEIGHT + this.sequence.frameHeight
-    );
+    try {
+      return (
+        this.px < -this.sequence.frameWidth ||
+        this.py < -this.sequence.frameHeight ||
+        this.px > CANVAS_WIDTH + this.sequence.frameWidth ||
+        this.py > CANVAS_HEIGHT + this.sequence.frameHeight
+      );
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
   }
 }
 
