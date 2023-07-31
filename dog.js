@@ -1,6 +1,7 @@
 import Sequence from "./Sequence.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
 import { Terrestrial } from "./Terrestrial.js";
+import { Lives } from "./Lives.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -13,15 +14,24 @@ const dog = new Image();
 dog.src = "assets/shadow_dog.png";
 
 let ground = CANVAS_HEIGHT * 0.87;
+const firesounds = [
+  new Audio("./assets/sounds/fire.mp3"),
+  new Audio("./assets/sounds/fire2.mp3"),
+  //new Audio("./assets/sounds/fire3.mp3"),
+  new Audio("./assets/sounds/fire4.mp3"),
+];
 
-class Dog extends Terrestrial  {
+class Dog extends Terrestrial {
   constructor(
     canvas,
     animationSpeed,
     renderAtX,
     renderAtY,
     sequences,
-    scale = 1
+    scale = 1,
+    options={
+      initialLives:3
+    }
   ) {
     super(
       canvas,
@@ -44,9 +54,10 @@ class Dog extends Terrestrial  {
       stand: 3,
       run: 3,
     };
-    this.regularspeed=1;
+    this.regularspeed = 1;
     this.isImmune = false;
     this.sequences = sequences;
+    this.lives = new Lives(canvas, 0 ,CANVAS_WIDTH*.7, CANVAS_HEIGHT*.01 , .5,{initialLives:options.initialLives});
   }
 
   handleKeyUp() {
@@ -76,13 +87,15 @@ class Dog extends Terrestrial  {
       this.state = "dash";
       this.dash();
       setTimeout(() => {
-        this.state = "run";
+        if(this.state!='die')
+          this.state = "run";
       }, 330);
     }
   }
   handleRoll() {
     if (this.state != "roll" && this.state != "dash") {
       this.state = "roll";
+      firesounds[Math.floor(Math.random()*firesounds.length)].cloneNode().play();
       this.roll();
       setTimeout(() => {
         this.state = "run";
@@ -113,7 +126,7 @@ class Dog extends Terrestrial  {
     this.ax += Math.sign(this.vx) * 3;
     this.ay += Math.sign(this.vy) * 3;
   }
-  
+
   update() {
     super.update();
     this.px = Math.min(
@@ -121,12 +134,13 @@ class Dog extends Terrestrial  {
       CANVAS_WIDTH - this.sequence.frameWidth * this.scale
     );
     this.px = Math.max(this.px, 0);
-    if(this.py<0){
-      this.ay=0;
-      this.vy=0;
-      this.py=10;
+    if (this.py < 0) {
+      this.ay = 0;
+      this.vy = 0;
+      this.py = 10;
     }
   }
+  
 }
 
 let movesArr = [
@@ -171,14 +185,22 @@ let movesArr = [
 function initializeMoves() {
   let moves = {};
   movesArr.forEach((move, index) => {
-    moves[move.name] = new Sequence(dog, 575, 525, move.frames, index,.4,.4);
+    moves[move.name] = new Sequence(
+      dog,
+      575,
+      525,
+      move.frames,
+      index,
+      0.4,
+      0.4
+    );
   });
   return moves;
 }
 let Moves = initializeMoves();
 
 window.addEventListener("keydown", function (event) {
-  if (puppy.state != "dazed") {
+  if (puppy.state != "dazed" && puppy.state != "die") {
     if (
       event.key == "ArrowUp" ||
       event.key == "w" ||
@@ -199,7 +221,7 @@ window.addEventListener("keydown", function (event) {
   }
 });
 window.addEventListener("keyup", function (event) {
-  if (puppy.state != "dazed") {
+  if (puppy.state != "dazed" && puppy.state != "die") {
     if (event.key == "ArrowRight" || event.key == "d" || event.key == "D")
       puppy.stop();
     if (event.key == "ArrowLeft" || event.key == "a" || event.key == "A")
@@ -208,8 +230,6 @@ window.addEventListener("keyup", function (event) {
       puppy.stop();
   }
 });
-
-
 
 export const puppy = new Dog(
   ctx,
