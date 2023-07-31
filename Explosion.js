@@ -14,25 +14,19 @@ export class Explosion extends Drawable {
       renderAtX,
       renderAtY,
       scale
+      
     );
   }
 
-  static createExplosion(drawable, animationSpeed, scale) {
-    !animationSpeed && (animationSpeed = drawable.animationSpeed);
-    !scale && (scale = drawable.scale);
-    return new Explosion(
-      drawable.canvas,
-      animationSpeed,
-      drawable.px,
-      drawable.py,
-      scale
-    );
-  }
-  setPosition(x, y) {
-    this.px = x;
-    this.py = y;
-  }
-  setScale(scale) {
-    this.scale=scale;
+
+  update() {
+    if (
+      Math.floor(this.index * this.animationSpeed) >=
+      this.sequence.frames.length-1
+    ) {
+      this.index = 0;
+      this.scale = 0;
+    }
+    super.update();
   }
 }
