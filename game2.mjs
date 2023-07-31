@@ -20,6 +20,17 @@ myFont.load().then(function (font) {
   document.fonts.add(font);
 });
 
+let music = new Audio("./assets/sounds/the_field_of_dreams.mp3");
+export let play=false;
+document.getElementById('play').addEventListener("click", () => {
+  play=true
+  music.volume=.1
+  music.play();
+  animate(0);
+  !continueAnimating&&location.reload()
+});
+
+music.loop = true;
 setInterval(() => {
   EnemyAs.push(
     new Ghost(
@@ -160,7 +171,7 @@ function animate(timeStamp) {
   }
   puppy.lives.draw();
   if (puppy.state == "die") {
-    puppy.ax=0
+    puppy.ax = 0;
     showMessage(ctx, `Game Over`, {
       font: "100px Pixels",
       renderAtX: CANVAS_WIDTH / 2 - 200,
@@ -169,9 +180,10 @@ function animate(timeStamp) {
       color: "red",
       shadowColor: "black",
     });
+    document.getElementById('play').innerHTML='Try Again'
   }
-  if(puppy.state=="die"&&puppy.isGrounded){
-    puppy.vx=-4;
+  if (puppy.state == "die" && puppy.isGrounded) {
+    puppy.vx = -4;
   }
   if (
     puppy.state == "die" &&
@@ -182,7 +194,6 @@ function animate(timeStamp) {
   }
   continueAnimating && requestAnimationFrame(animate);
 }
-animate(0);
 //Collision
 
 document.addEventListener("collision", function (e) {

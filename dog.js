@@ -2,6 +2,7 @@ import Sequence from "./Sequence.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
 import { Terrestrial } from "./Terrestrial.js";
 import { Lives } from "./Lives.js";
+import { play } from "./game2.mjs";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -12,7 +13,9 @@ const timespan = 20;
 
 const dog = new Image();
 dog.src = "assets/shadow_dog.png";
-
+let run = new Audio("./assets/sounds/doggy.mp3");
+run.loop=true
+run.volume=.1
 let ground = CANVAS_HEIGHT * 0.87;
 const firesounds = [
   new Audio("./assets/sounds/fire.mp3"),
@@ -20,6 +23,7 @@ const firesounds = [
   //new Audio("./assets/sounds/fire3.mp3"),
   new Audio("./assets/sounds/fire4.mp3"),
 ];
+
 
 class Dog extends Terrestrial {
   constructor(
@@ -95,7 +99,9 @@ class Dog extends Terrestrial {
   handleRoll() {
     if (this.state != "roll" && this.state != "dash") {
       this.state = "roll";
-      firesounds[Math.floor(Math.random()*firesounds.length)].cloneNode().play();
+      let a=firesounds[Math.floor(Math.random()*firesounds.length)].cloneNode()
+      a.volume=.2
+      a.play();
       this.roll();
       setTimeout(() => {
         this.state = "run";
@@ -109,6 +115,8 @@ class Dog extends Terrestrial {
   }
   handleState() {
     setInterval(() => {
+      this.state=="run"&&play?run.play():run.pause();
+      this.state=="dead"&&run.stop();
       if (this.state != "dazed") {
         if (this.vy < 0) this.setState("jump");
         if (this.vy > 0) this.setState("fall");
