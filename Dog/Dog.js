@@ -70,7 +70,9 @@ export class Dog extends Terrestrial {
     this.isImmune = false;
    
   }
-
+  jump(){
+    this.vy += this.jumpVelocity;
+  }
 
   setState(state) {
     state=Math.min(state,this.states.length-1)

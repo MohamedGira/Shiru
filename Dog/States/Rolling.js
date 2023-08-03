@@ -32,6 +32,9 @@ export class Rolling extends State {
     if (!isPress && lastKey == "roll") {
       this.player.setState(states.FALLING);
     }
+    if(lastKey=="up"&&isPress){
+      this.player.isGrounded&&this.player.jump();
+    }
     super.handleInput();
   }
 }

@@ -250,7 +250,8 @@ document.getElementById("controls").addEventListener("mouseout", () => {
   overlay.style.display = "none";
 });
 window.addEventListener("keydown", function (e) {
-  if (e.code == "Space" && e.target == document.body) {
+  if ( e.target == document.body) {
+    if(e.code == "Space" ||e.code=="ArrowDown"||e.code=="ArrowUp")
     e.preventDefault();
   }
 });
