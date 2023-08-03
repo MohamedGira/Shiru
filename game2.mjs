@@ -60,7 +60,14 @@ let play = document.getElementById("play");
 let puppy;
 
 let EnemyGen1, EnemyGen2, EnemyGen3, EnemyGen4;
+let hide = true;
+
 play.addEventListener("click", () => {
+  hide = true;
+  const fadeout = setInterval(() => {
+    music.volume /= 0.9;
+    if (music.volume >= 1) clearInterval(fadeout);
+  }, 200);
   play.style.display = "none";
   music.play();
   clearInterval(EnemyGen1);
@@ -68,9 +75,9 @@ play.addEventListener("click", () => {
   clearInterval(EnemyGen3);
   clearInterval(EnemyGen4);
   continueAnimating = true;
+  EnemyAs = [];
   puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 10 });
   animate(0);
-  EnemyAs = [];
   EnemyGen1 = setInterval(() => {
     EnemyAs.push(
       new Ghost(
@@ -165,17 +172,9 @@ play.addEventListener("click", () => {
     }
   });
 });
-let hide = true;
-function hideHead() {
-  hide &&
-    document.getElementById("head").animate([{ opacity: 1 }, { opacity: 0 }], {
-      duration: 1000,
-      fill: "forwards",
-    });
-  hide = false;
-}
 
 function animate(timeStamp) {
+  
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   bgs.forEach((bg) => {
     bg.puppySpeed = puppy.vx;
@@ -207,12 +206,12 @@ function animate(timeStamp) {
   puppy.lives.draw();
   if (puppy.currentStateIndex == states.DYING) {
     hide && canvas.animate([{ opacity: 1 }, { opacity: 0 }], 3000);
-    const fadeout=hide&&setInterval(()=>{
-      music.volume*=0.9;
-      if (music.volume<0.1)
-      clearInterval(fadeout);
-    },200)
-    hide = false;
+    const fadeout =
+      hide &&
+      setInterval(() => {
+        music.volume *= 0.9;
+        if (music.volume < 0.1) clearInterval(fadeout);
+      }, 200);
     showMessage(ctx, `Game Over`, {
       font: "100px Pixels",
       renderAtX: CANVAS_WIDTH / 2 - 200,
@@ -221,31 +220,36 @@ function animate(timeStamp) {
       color: "red",
       shadowColor: "black",
     });
-    
-    setTimeout(() => {
+
+   hide&& setTimeout(() => {
+      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       continueAnimating = false;
       document.getElementById("btnImg").src = "./assets/tryAgain.png";
       play.style.display = "block";
-      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }, 3000);
+    hide = false;
+
   }
   continueAnimating && requestAnimationFrame(animate);
 }
 
-let controls=document.getElementById('controlsList');
-document.getElementById('controls').addEventListener('mouseover',()=>{
-controls.style.display='flex';
-controls.style.position='fixed';
-controls.style.left='10px';
-controls.style.maxWidth='20rem';
+let controls = document.getElementById("controlsList");
+document.getElementById("controls").addEventListener("mouseover", () => {
+  controls.style.display = "flex";
+  controls.style.position = "fixed";
+  controls.style.left = "10px";
+  controls.style.maxWidth = "20rem";
+  overlay.style.display = "block";
+});
 
+let overlay = document.getElementById("overlay");
 
-})
-document.getElementById('controls').addEventListener('mouseout',()=>{
-  controls.style.display='none';
-})
-window.addEventListener('keydown', function(e) {
-  if(e.code == 'Space' && e.target == document.body) {
+document.getElementById("controls").addEventListener("mouseout", () => {
+  controls.style.display = "none";
+  overlay.style.display = "none";
+});
+window.addEventListener("keydown", function (e) {
+  if (e.code == "Space" && e.target == document.body) {
     e.preventDefault();
   }
 });
