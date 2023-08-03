@@ -239,9 +239,7 @@ function animate(timeStamp) {
 let controls = document.getElementById("controlsList");
 document.getElementById("controls").addEventListener("mouseover", () => {
   controls.style.display = "flex";
-  controls.style.position = "fixed";
-  controls.style.left = "10px";
-  controls.style.maxWidth = "20rem";
+
   overlay.style.display = "block";
 });
 
