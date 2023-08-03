@@ -14,7 +14,7 @@ import { Dog } from "./Dog/Dog.js";
 const canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
 const timeInterval = 1000;
-let EnemyAs = [];
+let drawables = [];
 let music = new Audio("./assets/sounds/the_field_of_dreams.mp3");
 music.loop = true;
 var myFont = new FontFace("Pixels", "url(assets/VT323/VT323-Regular.ttf)");
@@ -22,9 +22,19 @@ var myFont = new FontFace("Pixels", "url(assets/VT323/VT323-Regular.ttf)");
 myFont.load().then(function (font) {
   document.fonts.add(font);
 });
+let drawablesTypes = [
+  { drawable: EnemyA, scale: .3 },
+  { drawable: EnemyB, scale: .3 },
+  { drawable: Ghost, scale: .3 },
+  { drawable: EnemyD, scale: .3 },
+  { drawable: Worm, scale: 2 },
+  { drawable: Heart, scale: 1}
+];
+
+
+
 
 window.addEventListener("load", () => {
-
   let bgs = getBgs(ctx);
   //pooling design pattern
   let boomsPool = [];
@@ -69,7 +79,6 @@ window.addEventListener("load", () => {
   let play = document.getElementById("play");
   let puppy;
 
-  let EnemyGen1, EnemyGen2, EnemyGen3, EnemyGen4;
   let hide = true;
 
   play.addEventListener("click", () => {
@@ -84,84 +93,11 @@ window.addEventListener("load", () => {
     }, 200);
     play.style.display = "none";
     music.play();
-    clearInterval(EnemyGen1);
-    clearInterval(EnemyGen2);
-    clearInterval(EnemyGen3);
-    clearInterval(EnemyGen4);
+
     continueAnimating = true;
-    EnemyAs = [];
+    drawables = [];
     puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 1000 });
     animate(0);
-    EnemyGen1 = setInterval(() => {
-      EnemyAs.push(
-        new Ghost(
-          ctx,
-          Math.random(),
-          Math.random() * CANVAS_WIDTH,
-          Math.random() * CANVAS_HEIGHT,
-          Math.random() * 0.5 + 0.3,
-          puppy
-        )
-      );
-      EnemyAs.push(
-        new EnemyA(
-          ctx,
-          Math.random(),
-          Math.random() * CANVAS_WIDTH,
-          Math.random() * CANVAS_HEIGHT,
-          Math.random() * 0.3 + 0.3,
-          puppy
-        )
-      );
-    }, 1200);
-    EnemyGen2 = setInterval(() => {
-      EnemyAs.push(
-        new EnemyD(
-          ctx,
-          Math.random(),
-          Math.random() * CANVAS_WIDTH,
-          Math.random() * CANVAS_HEIGHT,
-          Math.random() * 0.5 + 0.3,
-          puppy
-        )
-      );
-      EnemyAs.push(
-        new Worm(
-          ctx,
-          Math.random(),
-          Math.random() * CANVAS_WIDTH,
-          Math.random() * CANVAS_HEIGHT,
-          Math.random() + 2,
-          puppy
-        )
-      );
-    }, 5000);
-
-    EnemyGen3 = setInterval(() => {
-      EnemyAs.push(
-        new Heart(
-          ctx,
-          Math.random(),
-          Math.random() * CANVAS_WIDTH,
-          Math.random() * CANVAS_HEIGHT,
-          1,
-          puppy
-        )
-      );
-    }, 3000);
-
-    EnemyGen4 = setInterval(() => {
-      EnemyAs.push(
-        new EnemyB(
-          ctx,
-          Math.random(),
-          Math.random() * CANVAS_WIDTH,
-          Math.random() * CANVAS_HEIGHT,
-          Math.random() * 0.3 + 0.3,
-          puppy
-        )
-      );
-    }, 400);
 
     document.addEventListener("collision", function (e) {
       let en = e.detail.whoami;
@@ -172,7 +108,7 @@ window.addEventListener("load", () => {
           (en.physicalWidth * 1.2) / ex.object.sequence.frameWidth
         );
         ex.isActive = true;
-        EnemyAs = EnemyAs.filter((el) => el != en);
+        drawables = drawables.filter((el) => el != en);
         if (en instanceof Enemy) {
           if (puppy.currentStateIndex == states.ROLLING)
             score += en.options.score;
@@ -197,7 +133,22 @@ window.addEventListener("load", () => {
     let deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
     passed += deltaTime;
-    EnemyAs.forEach((enemy) => {
+    if (passed > Math.random() * 1000 + 1000) {
+      let i=Math.floor(Math.random() * drawablesTypes.length);
+      drawables.push(
+        new drawablesTypes[i].drawable(
+          ctx,
+          Math.random(),
+          Math.random() * CANVAS_WIDTH,
+          Math.random() * CANVAS_HEIGHT,
+          Math.random() *.4+  drawablesTypes[i].scale,
+          puppy
+        )
+      );
+      passed = 0;
+    }
+
+    drawables.forEach((enemy) => {
       enemy.animate();
     });
     [...boomsPool, ...trailsPool].forEach((boom) => {
@@ -209,7 +160,7 @@ window.addEventListener("load", () => {
 
     showMessage(ctx, `Score: ${score}`);
     if (passed > timeInterval) {
-      EnemyAs = EnemyAs.filter((enemy) => !enemy.outOfScreen);
+      drawables = drawables.filter((enemy) => !enemy.outOfScreen);
     }
     puppy.draw();
     puppy.update(inputHandler.lastKey, inputHandler.isPress);
@@ -246,8 +197,7 @@ window.addEventListener("load", () => {
     }
     continueAnimating && requestAnimationFrame(animate);
   }
-  console.log("loaded")
-  document.getElementById('loader').style.display='none';
+  document.getElementById("loader").style.display = "none";
   play.style.display = "block";
 });
 
