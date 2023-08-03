@@ -3,7 +3,7 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
 import { Enemy } from "./Enemy.js";
 
 export class Ghost extends Enemy {
-  static sequence = getSequence("../assets/enemies/enemy3.png", 218, 177, 6, 0);
+  static sequence = getSequence("assets/enemies/enemy3.png", 218, 177, 6, 0);
   constructor(canvas, animationSpeed, renderAtX, renderAtY, scale, foe) {
     super(
       canvas,

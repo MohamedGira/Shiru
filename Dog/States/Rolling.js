@@ -1,9 +1,9 @@
 import { State, states } from "./State.js";
 
 const firesounds = [
-  new Audio("../../assets/sounds/fire.mp3"),
-  new Audio("../../assets/sounds/fire2.mp3"),
-  new Audio("../../assets/sounds/fire4.mp3"),
+  new Audio("assets/sounds/fire.mp3"),
+  new Audio("assets/sounds/fire2.mp3"),
+  new Audio("assets/sounds/fire4.mp3"),
 ];
 export class Rolling extends State {
   constructor(player, sequence) {
