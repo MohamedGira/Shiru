@@ -1,4 +1,3 @@
-import { puppy } from "./Dog.js";
 import { Enemy, EnemyA, EnemyB, EnemyD } from "./Enemies/Enemy.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
 import { getBgs } from "./Layer.js";
@@ -250,3 +249,5 @@ window.addEventListener('keydown', function(e) {
     e.preventDefault();
   }
 });
+
+let c = new InputHandler();
