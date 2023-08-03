@@ -201,24 +201,7 @@ window.addEventListener("load", () => {
   play.style.display = "block";
 });
 
-let controls = document.getElementById("controlsList");
-document.getElementById("controls").addEventListener("mouseover", () => {
-  controls.style.display = "flex";
 
-  overlay.style.display = "block";
-});
 
-let overlay = document.getElementById("overlay");
-
-document.getElementById("controls").addEventListener("mouseout", () => {
-  controls.style.display = "none";
-  overlay.style.display = "none";
-});
-window.addEventListener("keydown", function (e) {
-  if (e.target == document.body) {
-    if (e.code == "Space" || e.code == "ArrowDown" || e.code == "ArrowUp")
-      e.preventDefault();
-  }
-});
 
 let c = new InputHandler();
