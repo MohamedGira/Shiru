@@ -3,7 +3,7 @@ import Drawable from "./Drawable.js";
 import { getSequence } from "./utils/getSequence.js";
 import { CANVAS_WIDTH } from "./utils/globals.js";
 export class Heart extends Drawable {
-  static sequence=getSequence('/assets/heart.png',50,50,1,0);
+  static sequence=getSequence('assets/heart.png',50,50,1,0);
 
     constructor(
       canvas,

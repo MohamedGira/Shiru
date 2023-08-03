@@ -65,8 +65,11 @@ let hide = true;
 play.addEventListener("click", () => {
   hide = true;
   const fadeout = setInterval(() => {
-    music.volume /= 0.9;
-    if (music.volume >= 1) clearInterval(fadeout);
+    try{music.volume /= 0.9;}catch(er){
+      music.volume=1;
+      clearInterval(fadeout);
+    }
+    
   }, 200);
   play.style.display = "none";
   music.play();
