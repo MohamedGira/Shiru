@@ -5,7 +5,7 @@ import { states } from "./States/State.js";
 import { Standing } from "./States/Standing.js";
 import { Jumping } from "./States/Jumping.js";
 import { Falling } from "./States/Falling.js";
-import { Running } from "./States/Running.js";
+import { Running, run } from "./States/Running.js";
 import { Sitting } from "./States/Sitting.js";
 import { Dazed } from "./States/Dazed.js";
 import { Chilling } from "./States/Chilling.js";
@@ -23,9 +23,6 @@ const timespan = 20;
 export const PlayerSpeed=5
 const dog = new Image();
 dog.src = "assets/shadow_dog.png";
-let run = new Audio("./assets/sounds/doggy.mp3");
-run.loop = true;
-run.volume = 0.1;
 
 let ground = CANVAS_HEIGHT * 0.87;
 
@@ -77,6 +74,7 @@ export class Dog extends Terrestrial {
   setState(state) {
     state=Math.min(state,this.states.length-1)
     this.index=0;
+    run.pause();
     this.currentStateIndex=state;
     this.currentState = this.states[state];
     this.currentState.enter()

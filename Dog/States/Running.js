@@ -1,6 +1,9 @@
 import { PlayerSpeed } from "../Dog.js";
 import { State, states } from "./State.js";
 
+let run = new Audio("assets/sounds/doggy.mp3");
+run.loop = true;
+run.volume = 0.1;
 export class Running extends State {
   constructor(player, sequence) {
     super(
@@ -12,6 +15,7 @@ export class Running extends State {
   }
   enter() {
     super.enter();
+    run.play();
   }
 
   handleInput(lastKey, isPress = false) {
