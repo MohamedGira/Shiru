@@ -12,5 +12,7 @@ export class Dashing extends State {
     super.enter();
   }
 
-  handleInput() {}
+  handleInput() {
+    super.handleInput();
+  }
 }

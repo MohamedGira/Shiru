@@ -9,8 +9,13 @@ export class Dying extends State {
     );
   }
   enter() {
+    this.player.setVelocityX(-3.6);
     super.enter();
   }
 
-  handleInput() {}
+  handleInput() {    super.handleInput();
+
+    if(Math.floor(this.player.index*this.player.animationSpeed)>=this.sequence.framesCount-1)
+      this.player.index--;
+  }
 }

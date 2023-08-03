@@ -12,5 +12,6 @@ export class Chilling extends State {
     super.enter();
   }
 
-  handleInput() {}
+  handleInput() {    super.handleInput();
+  }
 }
