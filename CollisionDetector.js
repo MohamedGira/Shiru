@@ -5,7 +5,12 @@ export class CollisionDetector {
     */
     let aXStart, aXEnd, aYStart, aYEnd, bXStart, bXEnd, bYStart, bYEnd;
 
-  
+    /* function animate() {
+      a.canvas.fillStyle = "green";
+      a.canvas.fillRect(bXStart, bYStart, bXEnd - bXStart, bYEnd - bYStart);
+        requestAnimationFrame(animate);
+    }
+    animate(); */
     setInterval(() => {
       aXStart = a.px + (a.sequence.whiteSpaceX * a.scale) / 2;
       aXEnd = aXStart + a.physicalWidth;
