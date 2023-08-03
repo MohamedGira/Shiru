@@ -3,10 +3,8 @@ import Sequence from "./Sequence.js";
 import { CANVAS_WIDTH } from "./utils/globals.js";
 import { showMessage } from "./utils/showMessage.js";
 
-const liveImage = new Image();
-liveImage.src = "./assets/lives.png";
 
-const liveSequence = new Sequence(liveImage, 50, 50, 1, 0);
+const liveSequence = new Sequence(document.getElementById('livesImg'), 50, 50, 1, 0);
 
 export class Lives extends Drawable {
   constructor(

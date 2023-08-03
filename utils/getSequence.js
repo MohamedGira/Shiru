@@ -2,17 +2,15 @@ import Sequence from "../Sequence.js";
 
 
 export function getSequence(
-  imgsrc,
+  imgId,
   frameWidth,
   frameHeight,
   framesCount,
   offset
 ) {
   console.log("loading")
-  let image = new Image();
-  image.src = imgsrc;
   let sequence = new Sequence(
-    image,
+    document.getElementById(imgId),
     frameWidth,
     frameHeight,
     framesCount,

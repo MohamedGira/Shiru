@@ -24,9 +24,7 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
   export const getBgs=function initializeBackgroundArray(canvas) {
     let bgs = [];
     for (let i = 1; i <= 5; i++) {
-      let aa = new Image();
-      aa.src = `assets/layer-${i}.png`;
-      bgs.push(new Layer(aa, i,canvas));
+      bgs.push(new Layer(document.getElementById(`layer${i}Img`), i,canvas));
     }
     return bgs;
   }

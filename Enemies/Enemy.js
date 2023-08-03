@@ -39,7 +39,7 @@ export class Enemy extends Drawable {
 
 
 export class EnemyA extends Enemy {
-  static sequence=getSequence('../assets/enemies/enemy1.png',293,153,6,0);
+  static sequence=getSequence('enemy1Img',293,153,6,0);
 
   constructor(
     canvas,
@@ -59,7 +59,7 @@ export class EnemyA extends Enemy {
 }
 
 export class EnemyB extends Enemy {
-  static sequence=getSequence('../assets/enemies/enemy2.png',266,188,6,0);
+  static sequence=getSequence('enemy2Img',266,188,6,0);
 
   constructor(
     canvas,
@@ -77,7 +77,7 @@ export class EnemyB extends Enemy {
 }
 
 export class EnemyD extends Enemy {
-  static sequence=getSequence('../assets/enemies/enemy4.png',213,212,9,0);
+  static sequence=getSequence('enemy4Img',213,212,9,0);
 
   constructor(
     canvas,
