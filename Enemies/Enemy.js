@@ -27,10 +27,14 @@ export class Enemy extends Drawable {
     });
     CollisionDetector.detectCollesion(this, foe, this.collisionEvent);
     this.exploded=false;
+    this.foe=foe;
+    this.orignalspeed=this.vx;
+    
   }
 
 
   update() {
+    this.setVelocityX(this.orignalspeed-this.foe.vx*.2);
     this.outOfScreen=this.isoutOfScreen();
     super.update();
   }

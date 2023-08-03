@@ -1,4 +1,3 @@
-import { puppy } from "./Dog.js";
 import { Enemy, EnemyA, EnemyB, EnemyD } from "./Enemies/Enemy.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
 import { getBgs } from "./Layer.js";
@@ -8,12 +7,16 @@ import { Worm } from "./Enemies/Worm.js";
 import { Trail } from "./Trail.js";
 import { showMessage } from "./utils/showMessage.js";
 import { Heart } from "./Heart.js";
+import { InputHandler } from "./Dog/InputHandler.js";
+import { states } from "./Dog/States/State.js";
+import { Dog } from "./Dog/Dog.js";
 
 const canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
 const timeInterval = 1000;
 let EnemyAs = [];
-
+let music = new Audio("./assets/sounds/the_field_of_dreams.mp3");
+music.loop = true;
 var myFont = new FontFace("Pixels", "url(assets/VT323/VT323-Regular.ttf)");
 
 myFont.load().then(function (font) {
@@ -267,3 +270,5 @@ window.addEventListener("keydown", function (e) {
       e.preventDefault();
   }
 });
+
+let c = new InputHandler();
