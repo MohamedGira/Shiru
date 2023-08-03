@@ -34,7 +34,7 @@ export class Enemy extends Drawable {
 
 
   update() {
-    this.setVelocityX(this.orignalspeed-Math.max(this.foe.vx*.2,1));
+    this.setVelocityX(this.orignalspeed-this.foe.vx*.2);
     this.outOfScreen=this.isoutOfScreen();
     super.update();
   }
@@ -43,7 +43,7 @@ export class Enemy extends Drawable {
 
 
 export class EnemyA extends Enemy {
-  static sequence=getSequence('./assets/enemy1.png',293,153,6,0);
+  static sequence=getSequence('../assets/enemies/enemy1.png',293,153,6,0);
 
   constructor(
     canvas,
@@ -63,7 +63,7 @@ export class EnemyA extends Enemy {
 }
 
 export class EnemyB extends Enemy {
-  static sequence=getSequence('./assets/enemies/enemy2.png',266,188,6,0);
+  static sequence=getSequence('../assets/enemies/enemy2.png',266,188,6,0);
 
   constructor(
     canvas,
@@ -81,7 +81,7 @@ export class EnemyB extends Enemy {
 }
 
 export class EnemyD extends Enemy {
-  static sequence=getSequence('./assets/enemies/enemy4.png',213,212,9,0);
+  static sequence=getSequence('../assets/enemies/enemy4.png',213,212,9,0);
 
   constructor(
     canvas,

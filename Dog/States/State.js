@@ -14,7 +14,7 @@ export const states = {
 };
 
 const dog = new Image();
-dog.src = "assets/shadow_dog.png";
+dog.src = "../../assets/shadow_dog.png";
 export class State {
   constructor(name, sequence, player) {
     this.name = name;
