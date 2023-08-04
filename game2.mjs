@@ -222,7 +222,7 @@ window.addEventListener("load", () => {
               score += en.options.score;
             else if (puppy.currentStateIndex != states.DAZED) {
               puppy.lives.decrementLives();
-              //puppy.setState(states.DAZED);
+              puppy.setState(states.DAZED);
             }
           } else if (en instanceof Heart) {
             puppy.lives.incrementLives();
