@@ -1,4 +1,4 @@
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
 
 export class InputHandler {
   constructor() {
