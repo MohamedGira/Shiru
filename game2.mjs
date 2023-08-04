@@ -80,8 +80,7 @@ window.addEventListener("load", () => {
     canvas.height - 120
   );
 
-  let rollbtn= new button(ctx,0,30,CANVAS_HEIGHT-100,{scale:.4})
-  console.log(rollbtn.px,rollbtn.py)
+  let rollbtn= new button(ctx,0,30,CANVAS_HEIGHT-100,{scale:.8})
   let score = 0;
   let passed = 0,
     lastTime = 0;
@@ -115,7 +114,7 @@ window.addEventListener("load", () => {
   });
   let enemyInterval = 0;
   let filterInterval = 0;
-  let isphone=isMobile();
+  let isphone=isMobile()||true;
   function animate(timeStamp) {
     continueAnimating && requestAnimationFrame(animate);
 

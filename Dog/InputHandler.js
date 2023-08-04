@@ -44,25 +44,22 @@ export class InputHandler {
     window.addEventListener("touchstart", (event) => {
       if (
         event.changedTouches[event.changedTouches.length - 1].clientX <
-          window.innerWidth*(150/CANVAS_WIDTH) &&
+          window.innerWidth * (150 / CANVAS_WIDTH) &&
         event.changedTouches[event.changedTouches.length - 1].clientY >
-          window.innerHeight*(1-150/CANVAS_HEIGHT)
+          window.innerHeight * (1 - 150 / CANVAS_HEIGHT)
       ) {
         this.handleSwipe("roll", true);
         setTimeout(() => {
           this.handleSwipe("roll", false);
-        }, 200);
-      }
+        }, 200);      }
       let touchStart = {
         x: event.changedTouches[0].clientX,
         y: event.changedTouches[0].clientY,
       };
 
-      let{rectangleWidth}=getCanvasCoordinates();
       if (
-        touchStart.x > innerWidth*(1-220/CANVAS_WIDTH)&&
-        touchStart.y > innerHeight*(1-220/CANVAS_HEIGHT)
-
+        touchStart.x > innerWidth * (1 - 440 / CANVAS_WIDTH) &&
+        touchStart.y > innerHeight * (1 - 440 / CANVAS_HEIGHT)
       ) {
         this.touchStart = touchStart;
       }
@@ -97,10 +94,12 @@ export class InputHandler {
       }
     });
     window.addEventListener("touchend", (event) => {
-      this.touchStart = null;
-      this.touchCurrent = null;
-      this.activeKeys.clear();
-      this.isPress = false;
+      if (event.changedTouches.length == 1) {
+        this.touchStart = null;
+        this.touchCurrent = null;
+        this.activeKeys.clear();
+        this.isPress = false;
+      }
     });
   }
   handleSwipe(movename, condition) {
@@ -160,27 +159,36 @@ export function getCanvasCoordinates() {
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
   const screenAspectRatio = screenWidth / screenHeight;
-  let canvasStartX,canvasStartY,deltaHeight,deltaWidth;
+  let canvasStartX, canvasStartY, deltaHeight, deltaWidth;
   // Calculate the dimensions of the rectangle to fit within the screen's boundaries
   let rectangleWidth, rectangleHeight;
   if (screenAspectRatio > rectangleAspectRatio) {
     // Screen is wider than the rectangle
     rectangleHeight = screenHeight;
-    rectangleWidth =  screenHeight * rectangleAspectRatio;
-    canvasStartX=deltaWidth=(screenWidth-rectangleWidth)/2;
-    canvasStartY=0;
-    deltaHeight=0;
+    rectangleWidth = screenHeight * rectangleAspectRatio;
+    canvasStartX = deltaWidth = (screenWidth - rectangleWidth) / 2;
+    canvasStartY = 0;
+    deltaHeight = 0;
   } else {
     // Screen is taller than the rectangle
     rectangleWidth = screenWidth;
-    rectangleHeight = screenWidth/rectangleAspectRatio;
-    canvasStartX=deltaWidth=0;
-    deltaHeight=canvasStartY=(screenHeight-rectangleHeight)/2;
+    rectangleHeight = screenWidth / rectangleAspectRatio;
+    canvasStartX = deltaWidth = 0;
+    deltaHeight = canvasStartY = (screenHeight - rectangleHeight) / 2;
   }
 
   // Calculate the bottom left corner position
   const bottomRightX = rectangleWidth;
   const bottomRightY = screenHeight * (1 - rectangleHeight / 2);
 
-  return { bottomRightX, bottomRightY ,rectangleWidth,rectangleHeight ,canvasStartX,canvasStartY,deltaHeight,deltaWidth};
+  return {
+    bottomRightX,
+    bottomRightY,
+    rectangleWidth,
+    rectangleHeight,
+    canvasStartX,
+    canvasStartY,
+    deltaHeight,
+    deltaWidth,
+  };
 }
