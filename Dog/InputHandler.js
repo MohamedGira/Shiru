@@ -44,9 +44,9 @@ export class InputHandler {
     window.addEventListener("touchstart", (event) => {
       if (
         event.changedTouches[event.changedTouches.length - 1].clientX <
-          window.innerWidth * (150 / CANVAS_WIDTH) &&
+          window.innerWidth * (350 / CANVAS_WIDTH) &&
         event.changedTouches[event.changedTouches.length - 1].clientY >
-          window.innerHeight * (1 - 150 / CANVAS_HEIGHT)
+          window.innerHeight * (1 - 350 / CANVAS_HEIGHT)
       ) {
         this.handleSwipe("roll", true);
         setTimeout(() => {
@@ -58,8 +58,8 @@ export class InputHandler {
       };
 
       if (
-        touchStart.x > innerWidth * (1 - 440 / CANVAS_WIDTH) &&
-        touchStart.y > innerHeight * (1 - 440 / CANVAS_HEIGHT)
+        touchStart.x > innerWidth * (1 - 220 / CANVAS_WIDTH) &&
+        touchStart.y > innerHeight * (1 - 220 / CANVAS_HEIGHT)
       ) {
         this.touchStart = touchStart;
       }
