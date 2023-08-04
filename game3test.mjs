@@ -51,12 +51,12 @@ window.addEventListener("load", () => {
       canvas.requestFullscreen().catch((err) => console.log(err));
     }
     animate(0);
-    w=new Worm(
+    w=new EnemyA(
       ctx,
       1,
       Math.random() * CANVAS_WIDTH,
       Math.random() * CANVAS_HEIGHT,
-      Math.random() *.4+  2,
+      Math.random() *.4+.2,
       puppy
     )
   });
