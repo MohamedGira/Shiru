@@ -24,6 +24,10 @@ class Drawable extends Physical {
       (this.sequence.frameWidth - this.sequence.whiteSpaceX) * this.scale;
     this.physicalHeight =
       (this.sequence.frameHeight - this.sequence.whiteSpaceY) * this.scale;
+    this.physicalWidthWithSpaces =
+      (this.sequence.frameWidth * this.scale) / this.sequence.compressionScale;
+    this.physicalHeightWithSpaces =
+      (this.sequence.frameHeight * this.scale) / this.sequence.compressionScale;
     this.orignalspeed = 0;
   }
   draw() {
@@ -38,8 +42,8 @@ class Drawable extends Physical {
           Math.floor(this.index * this.animationSpeed) %
             this.sequence.frames.length
         ].y,
-        this.sequence.frameWidth,
-        this.sequence.frameHeight,
+        this.sequence.compressedframeWidth,
+        this.sequence.compressedframeHeight,
         this.px,
         this.py,
         this.sequence.frameWidth * this.scale,

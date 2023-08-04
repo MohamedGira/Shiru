@@ -95,7 +95,7 @@ window.addEventListener("load", () => {
 
     continueAnimating = true;
     drawables = [];
-    puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 1 });
+    puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 10 });
     if(!document.fullscreenElement){
       canvas.requestFullscreen().catch(err=>console.log(err));
     }
