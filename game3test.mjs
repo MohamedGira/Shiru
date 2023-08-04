@@ -22,16 +22,6 @@ var myFont = new FontFace("Pixels", "url(assets/VT323/VT323-Regular.ttf)");
 myFont.load().then(function (font) {
   document.fonts.add(font);
 });
-let drawablesTypes = [
-  { drawable: EnemyA, scale: 0.3 },
-  { drawable: EnemyB, scale: 0.3 },
-  { drawable: Ghost, scale: 0.3 },
-  { drawable: EnemyD, scale: 0.3 },
-  { drawable: Worm, scale: 2 },
-  { drawable: Heart, scale: 1 },
-];
-
-
 
 
 window.addEventListener("load", () => {
@@ -52,14 +42,7 @@ window.addEventListener("load", () => {
 
   play.addEventListener("click", () => {
     hide = true;
-    const fadeout = setInterval(() => {
-      try {
-        music.volume /= 0.9;
-      } catch (er) {
-        music.volume = 1;
-        clearInterval(fadeout);
-      }
-    }, 200);
+ 
     music.play();
 
     continueAnimating = true;
@@ -82,7 +65,7 @@ window.addEventListener("load", () => {
         bg.draw();
       });
 
-      showMessage(ctx, `Score: ${score}`);
+    
       if (passed > timeInterval) {
         drawables = drawables.filter((enemy) => !enemy.outOfScreen);
       }

@@ -11,7 +11,7 @@ export class CollisionDetector {
         requestAnimationFrame(animate);
     }
     animate(); */
-    let interval=setInterval(() => {
+/*     let interval=setInterval(() => {
       aXStart = a.px + (a.sequence.whiteSpaceX * a.scale) / 2;
       aXEnd = aXStart + a.physicalWidth;
       aYStart = a.py + (a.sequence.whiteSpaceY * a.scale) / 2;
@@ -31,6 +31,6 @@ export class CollisionDetector {
         document.dispatchEvent(event);
         clearInterval(interval);
       }
-    }, 40);
+    }, 40); */
   }
 }
