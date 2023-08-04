@@ -21,10 +21,6 @@ export class Enemy extends Drawable {
     this.vy = 0;
     this.gameFrame = 0;
     this.canvas = canvas;
-    this.collisionEvent = new CustomEvent("collision", {
-      detail: { whoami: this },
-    });
-    CollisionDetector.detectCollesion(this, foe, this.collisionEvent);
     this.exploded=false;
     this.foe=foe;
     this.orignalspeed=this.vx;
