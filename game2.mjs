@@ -7,11 +7,13 @@ import { Worm } from "./Enemies/Worm.js";
 import { Trail } from "./Trail.js";
 import { showMessage } from "./utils/showMessage.js";
 import { Heart } from "./Heart.js";
-import { InputHandler } from "./Dog/InputHandler.js";
+import { InputHandler, getCanvasCoordinates } from "./Dog/InputHandler.js";
 import { states } from "./Dog/States/State.js";
 import { Dog } from "./Dog/Dog.js";
+import { CollisionDetector } from "./CollisionDetector.js";
+import { TouchPad, button } from "./Dog/Touchpad.js";
 
-const canvas = document.getElementById("game");
+export const canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
 const timeInterval = 2000;
 let drawables = [];
@@ -67,7 +69,18 @@ window.addEventListener("load", () => {
   }
 
   const inputHandler = new InputHandler();
+  let t = new TouchPad(
+    ctx,
+    100,
+    30,
+    canvas.width - 120,
+    canvas.height - 120,
+    canvas.width - 120,
+    canvas.height - 120
+  );
 
+  let rollbtn= new button(ctx,0,30,CANVAS_HEIGHT-100,{scale:.4})
+  console.log(rollbtn.px,rollbtn.py)
   let score = 0;
   let passed = 0,
     lastTime = 0;
@@ -95,31 +108,9 @@ window.addEventListener("load", () => {
     puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 10 });
     if (!document.fullscreenElement) {
       canvas.requestFullscreen().catch((err) => console.log(err));
+      screen.orientation.lock("landscape");
     }
     animate(0);
-
-    document.addEventListener("collision", function (e) {
-      let en = e.detail.whoami;
-      if (en && puppy.currentStateIndex != states.DYING) {
-        let ex = boomsPool[boomsPool.findIndex((el) => !el.isActive)];
-        ex.object.setPosition(en.px, en.py);
-        ex.object.setScale(
-          (en.physicalWidth * 1.2) / ex.object.sequence.frameWidth
-        );
-        ex.isActive = true;
-        drawables = drawables.filter((el) => el != en);
-        if (en instanceof Enemy) {
-          if (puppy.currentStateIndex == states.ROLLING)
-            score += en.options.score;
-          else {
-            puppy.lives.decrementLives();
-          }
-        } else if (en instanceof Heart) {
-          puppy.lives.incrementLives();
-        }
-        delete e.detail.whoami;
-      }
-    });
   });
   let enemyInterval = 0;
   let filterInterval = 0;
@@ -164,6 +155,13 @@ window.addEventListener("load", () => {
       drawables.forEach((enemy) => {
         enemy.animate();
       });
+      inputHandler.touchCurrent
+        ? t.handleInnerPos(
+            (inputHandler.touchCurrent.x /window.innerWidth)*CANVAS_WIDTH,
+            (inputHandler.touchCurrent.y /window.innerHeight)*CANVAS_HEIGHT
+          )
+        : t.resetInnerPos();
+      t.draw();
       [...boomsPool, ...trailsPool].forEach((boom) => {
         if (boom.object.scale <= 0.2) {
           boom.isActive = false;
@@ -172,13 +170,13 @@ window.addEventListener("load", () => {
       });
 
       showMessage(ctx, `Score: ${score}`);
-
       puppy.draw();
       puppy.update(inputHandler.lastKey, inputHandler.isPress);
       if (puppy.currentStateIndex == states.ROLLING) {
         handleTrails(puppy);
       }
       puppy.lives.draw();
+      rollbtn.draw();
       if (puppy.currentStateIndex == states.DYING) {
         hide && canvas.animate([{ opacity: 1 }, { opacity: 0 }], 3000);
         const fadeout =
@@ -206,6 +204,29 @@ window.addEventListener("load", () => {
             play.style.display = "block";
           }, 3000);
         hide = false;
+      }
+      let collisionWith=CollisionDetector.betterDetectCollision(puppy, drawables)
+      if (collisionWith){
+        let en = drawables[drawables.findIndex((el) => el == collisionWith)];
+        if (puppy.currentStateIndex != states.DYING) {
+          let ex = boomsPool[boomsPool.findIndex((el) => !el.isActive)];
+          ex.object.setPosition(en.px, en.py);
+          ex.object.setScale(
+            (en.physicalWidth * 1.2) / ex.object.sequence.frameWidth
+          );
+          ex.isActive = true;
+          drawables = drawables.filter((el) => el != en);
+          if (en instanceof Enemy) {
+            if (puppy.currentStateIndex == states.ROLLING)
+              score += en.options.score;
+            else if (puppy.currentStateIndex != states.DAZED) {
+              puppy.lives.decrementLives();
+              //puppy.setState(states.DAZED);
+            }
+          } else if (en instanceof Heart) {
+            puppy.lives.incrementLives();
+          }
+        }
       }
       passed = 0;
     }
