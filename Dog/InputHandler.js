@@ -1,3 +1,5 @@
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "/utils/globals.js";
+
 export class InputHandler {
   constructor() {
     this.lastKey = null;
@@ -6,7 +8,7 @@ export class InputHandler {
     this.touchStart = null;
     this.touchCurrent = null;
     this.touchY = 0;
-    this.touchThreshold = 30;
+    this.touchThreshold = 50;
     this.acceptedKeys = [
       "KeyW",
       "ArrowUp",
@@ -42,60 +44,75 @@ export class InputHandler {
     window.addEventListener("touchstart", (event) => {
       if (
         event.changedTouches[event.changedTouches.length - 1].clientX <
-          window.innerWidth / 4 &&
+          window.innerWidth*(150/CANVAS_WIDTH) &&
         event.changedTouches[event.changedTouches.length - 1].clientY >
-          (3 * window.innerHeight) / 4
+          window.innerHeight*(1-150/CANVAS_HEIGHT)
       ) {
         this.handleSwipe("roll", true);
-        setTimeout(()=>{this.handleSwipe("roll", false)},150)
+        setTimeout(() => {
+          this.handleSwipe("roll", false);
+        }, 200);
       }
-      this.touchStart = {
+      let touchStart = {
         x: event.changedTouches[0].clientX,
         y: event.changedTouches[0].clientY,
       };
+
+      let{rectangleWidth}=getCanvasCoordinates();
+      if (
+        touchStart.x > innerWidth*(1-220/CANVAS_WIDTH)&&
+        touchStart.y > innerHeight*(1-220/CANVAS_HEIGHT)
+
+      ) {
+        this.touchStart = touchStart;
+      }
     });
     window.addEventListener("touchmove", (event) => {
-      console.log(event.changedTouches);
-      this.handleSwipe(
-        "up",
-        this.touchStart.y - event.changedTouches[0].clientY >
-          this.touchThreshold
-      );
-      this.handleSwipe(
-        "right",
-        event.changedTouches[0].clientX - this.touchStart.x >
-          this.touchThreshold
-      );
-
-      this.handleSwipe(
-        "left",
-        this.touchStart.x - event.changedTouches[0].clientX >
-          this.touchThreshold
-      );
-
-      this.touchCurrent = {
-        x: event.changedTouches[0].clientX,
-        y: event.changedTouches[0].clientY,
-      };
-      console.log(this.activeKeys);
+      if (this.touchStart) {
+        this.touchCurrent = {
+          x: event.changedTouches[0].clientX,
+          y: event.changedTouches[0].clientY,
+        };
+        this.handleSwipe(
+          "up",
+          this.touchStart.y - event.changedTouches[0].clientY >
+            this.touchThreshold
+        );
+        this.handleSwipe(
+          "right",
+          event.changedTouches[0].clientX - this.touchStart.x >
+            this.touchThreshold
+        );
+        this.handleSwipe(
+          "left",
+          this.touchStart.x - event.changedTouches[0].clientX >
+            this.touchThreshold
+        );
+        this.handleSwipe(
+          "down",
+          event.changedTouches[0].clientY - this.touchStart.y >
+            this.touchThreshold
+        );
+        this.lastKey = getLastValue(this.activeKeys);
+      }
     });
     window.addEventListener("touchend", (event) => {
       this.touchStart = null;
       this.touchCurrent = null;
-      this.handleSwipe("up", this.touchCurrent);
-      this.handleSwipe("right", this.touchCurrent);
-      this.handleSwipe("left", this.touchCurrent);
-      this.handleSwipe("roll", false);
+      this.activeKeys.clear();
+      this.isPress = false;
     });
   }
   handleSwipe(movename, condition) {
-    if (condition) {
+    if (condition && !this.activeKeys.has(movename)) {
       this.lastKey = movename;
       this.activeKeys.add(this.lastKey);
       this.isPress = true;
-    } else {
+      return;
+    }
+    if (!condition) {
       this.activeKeys.delete(movename);
-      this.lastKey = this.activeKeys.values().next().value;
+      this.lastKey = getLastValue(this.activeKeys);
       if (!this.lastKey) {
         this.isPress = false;
       }
@@ -130,4 +147,40 @@ export class InputHandler {
         break;
     }
   }
+}
+function getLastValue(set) {
+  let value;
+  for (value of set);
+  return value;
+}
+
+export function getCanvasCoordinates() {
+  // Given data
+  const rectangleAspectRatio = CANVAS_WIDTH / CANVAS_HEIGHT; // Replace with your desired rectangle's aspect ratio
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+  const screenAspectRatio = screenWidth / screenHeight;
+  let canvasStartX,canvasStartY,deltaHeight,deltaWidth;
+  // Calculate the dimensions of the rectangle to fit within the screen's boundaries
+  let rectangleWidth, rectangleHeight;
+  if (screenAspectRatio > rectangleAspectRatio) {
+    // Screen is wider than the rectangle
+    rectangleHeight = screenHeight;
+    rectangleWidth =  screenHeight * rectangleAspectRatio;
+    canvasStartX=deltaWidth=(screenWidth-rectangleWidth)/2;
+    canvasStartY=0;
+    deltaHeight=0;
+  } else {
+    // Screen is taller than the rectangle
+    rectangleWidth = screenWidth;
+    rectangleHeight = screenWidth/rectangleAspectRatio;
+    canvasStartX=deltaWidth=0;
+    deltaHeight=canvasStartY=(screenHeight-rectangleHeight)/2;
+  }
+
+  // Calculate the bottom left corner position
+  const bottomRightX = rectangleWidth;
+  const bottomRightY = screenHeight * (1 - rectangleHeight / 2);
+
+  return { bottomRightX, bottomRightY ,rectangleWidth,rectangleHeight ,canvasStartX,canvasStartY,deltaHeight,deltaWidth};
 }
