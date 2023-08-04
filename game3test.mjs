@@ -69,11 +69,11 @@ window.addEventListener("load", () => {
       if (passed > timeInterval) {
         drawables = drawables.filter((enemy) => !enemy.outOfScreen);
       }
-      puppy.draw();
+      /* puppy.draw();
       puppy.update(inputHandler.lastKey, inputHandler.isPress);
       if (puppy.currentStateIndex == states.ROLLING) {
         handleTrails(puppy);
-      }
+      } */
       puppy.lives.draw();
       passed=0;
     }
