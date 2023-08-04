@@ -12,6 +12,7 @@ import { states } from "./Dog/States/State.js";
 import { Dog } from "./Dog/Dog.js";
 import { CollisionDetector } from "./CollisionDetector.js";
 import { TouchPad, button } from "./Dog/Touchpad.js";
+import { isMobile } from "./utils/checkMobile.js";
 
 export const canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
@@ -114,7 +115,7 @@ window.addEventListener("load", () => {
   });
   let enemyInterval = 0;
   let filterInterval = 0;
-
+  let isphone=isMobile();
   function animate(timeStamp) {
     continueAnimating && requestAnimationFrame(animate);
 
@@ -161,7 +162,6 @@ window.addEventListener("load", () => {
             (inputHandler.touchCurrent.y /window.innerHeight)*CANVAS_HEIGHT
           )
         : t.resetInnerPos();
-      t.draw();
       [...boomsPool, ...trailsPool].forEach((boom) => {
         if (boom.object.scale <= 0.2) {
           boom.isActive = false;
@@ -176,7 +176,8 @@ window.addEventListener("load", () => {
         handleTrails(puppy);
       }
       puppy.lives.draw();
-      rollbtn.draw();
+      isphone&&t.draw();
+      isphone&&rollbtn.draw();
       if (puppy.currentStateIndex == states.DYING) {
         hide && canvas.animate([{ opacity: 1 }, { opacity: 0 }], 3000);
         const fadeout =
