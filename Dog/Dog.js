@@ -12,7 +12,6 @@ import { Chilling } from "./States/Chilling.js";
 import { Rolling } from "./States/Rolling.js";
 import { Dashing } from "./States/Dashing.js";
 import { Dying } from "./States/Dying.js";
-import { InputHandler } from "./InputHandler.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -27,7 +26,6 @@ let run = document.getElementById("runSound");
 run.loop = true;
 run.volume = .1;
 
-let ground = CANVAS_HEIGHT * 0.87;
 
 export class Dog extends Terrestrial {
   constructor(
