@@ -3,12 +3,17 @@ import { State, states } from "./State.js";
 export class Dazed extends State {
   constructor(player,sequence) {
     super(
-      "FALLING",
+      "DAZED",
       sequence || State.generateSequence(states.DAZED, 11),
       player
     );
   }
   enter() {
+    this.player.vx=-this.player.vx;
+    this.player.vy=-this.player.vy;
+    setTimeout(() => {
+      this.player.setState(states.RUNNING)
+    }, 2000);
     super.enter();
   }
 
