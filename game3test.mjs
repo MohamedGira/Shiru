@@ -17,9 +17,30 @@ const timeInterval = 1000;
 let drawables = [];
 let music = new Audio("./assets/sounds/the_field_of_dreams.mp3");
 music.loop = true;
+var myFont = new FontFace("Pixels", "url(assets/VT323/VT323-Regular.ttf)");
+
+myFont.load().then(function (font) {
+  document.fonts.add(font);
+});
+let drawablesTypes = [
+  { drawable: EnemyA, scale: .3 },
+  { drawable: EnemyB, scale: .3 },
+  { drawable: Ghost, scale: .3 },
+  { drawable: EnemyD, scale: .3 },
+  { drawable: Worm, scale: 2 },
+  { drawable: Heart, scale: 1}
+];
+
+
+
 
 window.addEventListener("load", () => {
   let bgs = getBgs(ctx);
+  //pooling design pattern
+ 
+
+
+  const inputHandler = new InputHandler();
 
   let score = 0;
   let passed = 0,
@@ -27,6 +48,7 @@ window.addEventListener("load", () => {
   let continueAnimating = true;
 
   let play = document.getElementById("play");
+  let puppy;
 
   let hide = true;
 
@@ -43,24 +65,46 @@ window.addEventListener("load", () => {
     music.play();
 
     continueAnimating = true;
-    drawables = [];
-    if (!document.fullscreenElement) {
-      canvas.requestFullscreen().catch((err) => console.log(err));
+    puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 1 });
+    if(!document.fullscreenElement){
+      canvas.requestFullscreen().catch(err=>console.log(err));
     }
     animate(0);
 
-
+    
   });
 
   function animate(timeStamp) {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     bgs.forEach((bg) => {
-      bg.puppySpeed = 4;
+      bg.puppySpeed = puppy.vx;
       bg.update();
       bg.draw();
     });
-    requestAnimationFrame(animate);
+    let deltaTime = timeStamp - lastTime;
+    lastTime = timeStamp;
+    passed += deltaTime;
+
+
+  
+  
+
+    showMessage(ctx, `Score: ${score}`);
+    if (passed > timeInterval) {
+      drawables = drawables.filter((enemy) => !enemy.outOfScreen);
+    }
+    puppy.draw();
+    puppy.update(inputHandler.lastKey, inputHandler.isPress);
+    if (puppy.currentStateIndex == states.ROLLING) {
+      handleTrails(puppy);
+    }
+    puppy.lives.draw();
+     requestAnimationFrame(animate);
   }
   document.getElementById("loader").style.display = "none";
   play.style.display = "block";
 });
+
+
+
+
