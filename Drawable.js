@@ -51,6 +51,7 @@ class Drawable extends Physical {
   update() {
     this.index == 999999999999999 ? (this.index = 0) : 0;
     this.index += 1;
+    super.update();
   }
   animate() {
     this.draw();

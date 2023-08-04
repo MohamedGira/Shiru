@@ -23,12 +23,12 @@ myFont.load().then(function (font) {
   document.fonts.add(font);
 });
 let drawablesTypes = [
-  { drawable: EnemyA, scale: .3 },
-  { drawable: EnemyB, scale: .3 },
-  { drawable: Ghost, scale: .3 },
-  { drawable: EnemyD, scale: .3 },
+  { drawable: EnemyA, scale: 0.3 },
+  { drawable: EnemyB, scale: 0.3 },
+  { drawable: Ghost, scale: 0.3 },
+  { drawable: EnemyD, scale: 0.3 },
   { drawable: Worm, scale: 2 },
-  { drawable: Heart, scale: 1}
+  { drawable: Heart, scale: 1 },
 ];
 
 
@@ -37,8 +37,6 @@ let drawablesTypes = [
 window.addEventListener("load", () => {
   let bgs = getBgs(ctx);
   //pooling design pattern
- 
-
 
   const inputHandler = new InputHandler();
 
@@ -66,45 +64,38 @@ window.addEventListener("load", () => {
 
     continueAnimating = true;
     puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 1 });
-    if(!document.fullscreenElement){
-      canvas.requestFullscreen().catch(err=>console.log(err));
+    if (!document.fullscreenElement) {
+      canvas.requestFullscreen().catch((err) => console.log(err));
     }
     animate(0);
-
-    
   });
 
   function animate(timeStamp) {
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    bgs.forEach((bg) => {
-      bg.puppySpeed = puppy.vx;
-      bg.update();
-      bg.draw();
-    });
     let deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
     passed += deltaTime;
+    if (passed > 16) {
+      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      bgs.forEach((bg) => {
+        bg.puppySpeed = puppy.vx;
+        bg.update();
+        bg.draw();
+      });
 
-
-  
-  
-
-    showMessage(ctx, `Score: ${score}`);
-    if (passed > timeInterval) {
-      drawables = drawables.filter((enemy) => !enemy.outOfScreen);
+      showMessage(ctx, `Score: ${score}`);
+      if (passed > timeInterval) {
+        drawables = drawables.filter((enemy) => !enemy.outOfScreen);
+      }
+      puppy.draw();
+      puppy.update(inputHandler.lastKey, inputHandler.isPress);
+      if (puppy.currentStateIndex == states.ROLLING) {
+        handleTrails(puppy);
+      }
+      puppy.lives.draw();
+      passed=0;
     }
-    puppy.draw();
-    puppy.update(inputHandler.lastKey, inputHandler.isPress);
-    if (puppy.currentStateIndex == states.ROLLING) {
-      handleTrails(puppy);
-    }
-    puppy.lives.draw();
-     requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   }
   document.getElementById("loader").style.display = "none";
   play.style.display = "block";
 });
-
-
-
-

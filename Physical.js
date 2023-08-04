@@ -7,12 +7,7 @@ export class Physical {
     this.ax = ax;
     this.ay = ay;
 
-    setInterval(() => {
-      this.px += this.vx;
-      this.py += this.vy;
-      this.vx += this.ax;
-      this.vy += this.ay;
-    }, 1000 / 60);
+    
   }
   setPosition(x, y) {
     this.px = x;
@@ -60,6 +55,12 @@ export class Physical {
     setInterval(() => {
       this.setVelocityY(Math.sin((i++ * 180) / 3.14) * amplitude);
     }, speedMs);
+  }
+  update(){
+    this.px += this.vx;
+    this.py += this.vy;
+    this.vx += this.ax;
+    this.vy += this.ay;
   }
   
 }
