@@ -54,11 +54,10 @@ window.addEventListener("load", () => {
   });
 
   function animate(timeStamp) {
-    requestAnimationFrame(animate);
     let deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
     passed += deltaTime;
-    if (passed > 50) {
+    if (passed > 30) {
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       bgs.forEach((bg) => {
         bg.puppySpeed = puppy.vx;
@@ -75,9 +74,10 @@ window.addEventListener("load", () => {
       if (puppy.currentStateIndex == states.ROLLING) {
         handleTrails(puppy);
       }
-      puppy.lives.draw();
       passed=0;
     }
+    requestAnimationFrame(animate);
+
   }
   document.getElementById("loader").style.display = "none";
   play.style.display = "block";
