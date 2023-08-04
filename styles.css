@@ -55,6 +55,7 @@ article p {
   position: absolute;
   top: 50%;
   background-color: transparent;
+  object-fit: contain;
 }
 canvas {
   border: 1px solid black;
@@ -69,6 +70,7 @@ canvas {
   padding: 0;
   outline: none;
   cursor: pointer;
+  
   display: none;
 }
 .playBtn:hover {
@@ -177,4 +179,8 @@ canvas {
   100% {
     transform: rotate(360deg);
   }
+}
+#btnImg{
+  height: 50px;
+  object-fit: contain;
 }
