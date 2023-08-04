@@ -40,33 +40,42 @@ export class InputHandler {
       }
     });
     window.addEventListener("touchstart", (event) => {
+      this.handleSwipe(
+        "roll",
+        event.changedTouches[event.changedTouches.length - 1].clientX <
+          window.innerWidth / 4 &&
+          event.changedTouches[event.changedTouches.length - 1].clientY >
+            3*window.innerHeight/ 4
+      );
       this.touchStart = {
         x: event.changedTouches[0].clientX,
         y: event.changedTouches[0].clientY,
       };
     });
     window.addEventListener("touchmove", (event) => {
-    
-      
+      console.log(event.changedTouches)
       this.handleSwipe(
         "up",
-        this.touchStart.y - event.changedTouches[0].clientY > this.touchThreshold
+        this.touchStart.y - event.changedTouches[0].clientY >
+          this.touchThreshold
       );
       this.handleSwipe(
         "right",
-        event.changedTouches[0].clientX - this.touchStart.x > this.touchThreshold
+        event.changedTouches[0].clientX - this.touchStart.x >
+          this.touchThreshold
       );
 
       this.handleSwipe(
         "left",
-        this.touchStart.x - event.changedTouches[0].clientX > this.touchThreshold
+        this.touchStart.x - event.changedTouches[0].clientX >
+          this.touchThreshold
       );
 
       this.touchCurrent = {
         x: event.changedTouches[0].clientX,
         y: event.changedTouches[0].clientY,
       };
-      console.log(this.activeKeys)
+      console.log(this.activeKeys);
     });
     window.addEventListener("touchend", (event) => {
       this.touchStart = null;
@@ -74,6 +83,7 @@ export class InputHandler {
       this.handleSwipe("up", this.touchCurrent);
       this.handleSwipe("right", this.touchCurrent);
       this.handleSwipe("left", this.touchCurrent);
+      this.handleSwipe("roll", false);
     });
   }
   handleSwipe(movename, condition) {

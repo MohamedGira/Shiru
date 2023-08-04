@@ -9,7 +9,7 @@ export class Dying extends State {
     );
   }
   enter() {
-    this.player.setVelocityX(-3.6);
+    this.player.setVelocityX(-4.2);
     super.enter();
   }
 
