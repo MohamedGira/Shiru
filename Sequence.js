@@ -33,7 +33,6 @@ class Sequence {
     const context = canvas.getContext('2d');
     const smallWidth = this.image.width*this.compressionScale;
     const smallHeight = this.image.height*this.compressionScale;
-    console.log(smallHeight,smallWidth,'quantamina')
     canvas.width = smallWidth;
     canvas.height = smallHeight;
     context.drawImage(this.image, 0, 0, smallWidth, smallHeight);

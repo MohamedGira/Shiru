@@ -14,18 +14,17 @@ import { Dashing } from "./States/Dashing.js";
 import { Dying } from "./States/Dying.js";
 
 const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 const timespan = 20;
 //dogstuff
 export const PlayerSpeed = 5;
-const dog = new Image();
-dog.src = "assets/shadow_dog.png";
+
 let run = document.getElementById("runSound");
 run.loop = true;
 run.volume = .1;
 
+let ground = CANVAS_HEIGHT * 0.87;
 
 export class Dog extends Terrestrial {
   constructor(
