@@ -36,7 +36,7 @@ window.addEventListener("load", () => {
   let continueAnimating = true;
 
   let play = document.getElementById("play");
-  let puppy;
+  let puppy,w;
 
   let hide = true;
 
@@ -51,8 +51,15 @@ window.addEventListener("load", () => {
       canvas.requestFullscreen().catch((err) => console.log(err));
     }
     animate(0);
+    w=new Worm(
+      ctx,
+      1,
+      Math.random() * CANVAS_WIDTH,
+      Math.random() * CANVAS_HEIGHT,
+      Math.random() *.4+  2,
+      puppy
+    )
   });
-
   function animate(timeStamp) {
     let deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
@@ -64,13 +71,11 @@ window.addEventListener("load", () => {
         bg.update();
         bg.draw();
       });
+      w.animate();
 
-    
-      if (passed > timeInterval) {
-        drawables = drawables.filter((enemy) => !enemy.outOfScreen);
-      }
-      puppy.draw();
-      puppy.update(inputHandler.lastKey, inputHandler.isPress);
+     
+     /*  puppy.draw();
+      puppy.update(inputHandler.lastKey, inputHandler.isPress); */
       if (puppy.currentStateIndex == states.ROLLING) {
         handleTrails(puppy);
       }

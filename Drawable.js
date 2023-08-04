@@ -24,6 +24,7 @@ class Drawable extends Physical {
       (this.sequence.frameWidth - this.sequence.whiteSpaceX) * this.scale;
     this.physicalHeight =
       (this.sequence.frameHeight - this.sequence.whiteSpaceY) * this.scale;
+    this.orignalspeed = 0;
   }
   draw() {
     try {
@@ -47,6 +48,9 @@ class Drawable extends Physical {
     } catch (e) {
       console.log(e);
     }
+  }
+  setOriginalSpeed(speed) {
+    this.orignalspeed = speed;
   }
   update() {
     this.index == 999999999999999 ? (this.index = 0) : 0;
