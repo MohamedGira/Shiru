@@ -39,7 +39,7 @@ window.addEventListener("load", () => {
   //pooling design pattern
   let boomsPool = [];
   let trailsPool = [];
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     boomsPool.push({
       isActive: false,
       object: new Explosion(ctx, 0.2, 0, 0, 0.2),
@@ -91,12 +91,14 @@ window.addEventListener("load", () => {
         clearInterval(fadeout);
       }
     }, 200);
-    play.style.display = "none";
     music.play();
 
     continueAnimating = true;
     drawables = [];
-    puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 1000 });
+    puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 1 });
+    if(!document.fullscreenElement){
+      canvas.requestFullscreen().catch(err=>console.log(err));
+    }
     animate(0);
 
     document.addEventListener("collision", function (e) {
@@ -187,6 +189,7 @@ window.addEventListener("load", () => {
 
       hide &&
         setTimeout(() => {
+          document.exitFullscreen();
           ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
           continueAnimating = false;
           document.getElementById("btnImg").src =
@@ -204,4 +207,3 @@ window.addEventListener("load", () => {
 
 
 
-let c = new InputHandler();
