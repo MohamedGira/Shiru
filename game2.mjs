@@ -39,7 +39,7 @@ window.addEventListener("load", () => {
   //pooling design pattern
   let boomsPool = [];
   let trailsPool = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 10; i++) {
     boomsPool.push({
       isActive: false,
       object: new Explosion(ctx, 0.2, 0, 0, 0.2),
