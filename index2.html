@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shura</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div style="display: none;">
+            <img src="assets/enemies/boom.png" id="boomImg">
+            <img src="assets/enemies/enemy1.png" id="enemy1Img">
+            <img src="assets/enemies/enemy2.png" id="enemy2Img">
+            <img src="assets/enemies/enemy3.png" id="enemy3Img">
+            <img src="assets/enemies/enemy4.png" id="enemy4Img">
+            <img src="assets/enemies/enemy_worm.png" id="wormImg">
+            <img src="assets/heart.png" id="heartImg">
+            <img src="assets/lives.png" id="livesImg">
+            <img src="assets/layer-1.png" id="layer1Img">
+            <img src="assets/layer-2.png" id="layer2Img">
+            <img src="assets/layer-3.png" id="layer3Img">
+            <img src="assets/layer-4.png" id="layer4Img">
+            <img src="assets/layer-5.png" id="layer5Img">
+            <img src="assets/fire.png" id="fireImg">
+            <img src="assets/shadow_dog.png" id="dogImg">
+            <img src="assets/play.png" id="playKey">
+            <img src="assets/tryAgain.png" id="tryAgainKey">
+            <audio src="assets/sounds/fire.mp3" id="fireSound"></audio>
+            <audio src="assets/sounds/fire2.mp3" id="fire2Sound"></audio>
+            <audio src="assets/sounds/fire4.mp3" id="fire4Sound"></audio>
+            <audio src="assets/sounds/the_field_of_dreams.mp3" id="themeSong"></audio>
+            <audio src="assets/sounds/doggy.mp3" id="runSound"></audio>
+    </div>
+    <header>
+        <h1 id="head">Shura</h1>
+    </header>
+    <div class="overlay" id="overlay"></div>
+    <main>
+        <a id="controls">Controls</a>
+        <div class="content">
+            <h2>Shura, The puppy of hell <img src="./assets/lives.png"></h2>
+            <div class="withcontrols">
+                <div class="container">
+                    <canvas id="game"></canvas>
+                    <button id="play" class="playBtn"> <img id="btnImg" src="./assets/play.png" /> </button>
+                    <div id="loader"class="loader"></div>
+
+                </div>
+                <ul class="controls" id =controlsList>
+                    <h3>Controls</h3>
+                    <li>
+                        Jump
+                        <ul>
+                            <li><img class="key" src="./assets/keyboard/up.png" alt=""></li>
+                            <li><img class="key" src="./assets/keyboard/w.png" alt=""></li>
+                            <li><img class="key" src="./assets/keyboard/space.png" alt=""></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Move &rarr; &larr; 
+                        <ul>
+                            <li><img class="key" src="./assets/keyboard/a.png" alt=""></li>
+                            <li><img class="key" src="./assets/keyboard/d.png" alt=""></li>
+                            <hr>
+                            <li><img class="key" src="./assets/keyboard/left.png" alt=""></li>
+                            <li><img class="key" src="./assets/keyboard/right.png" alt=""></li>
+                        </ul>
+                    </li>
+                    <li>
+                        Roll
+                        <ul>
+                            <li><img class="key" src="./assets/keyboard/r.png" alt=""></li>
+                            <hr>
+                            <li><img class="key" src="./assets/keyboard/right.png" alt=""><p>+</p><img class="key" src="./assets/keyboard/down.png" alt=""></li>
+                            <hr>    
+                            <li><img class="key" src="./assets/keyboard/left.png" alt=""><p>+</p><img class="key" src="./assets/keyboard/down.png" alt=""></li>
+                            
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <article>
+                <h2>Shura's Quest for Revenge</h2>
+                <br>
+                <p>Once upon a time, in the whimsical land of Mushroom Kingdom, Mario and his loyal dog, Shura, lived
+                    peacefully. The kingdom was known for its tranquility, joy, and prosperity. Mario, the heroic
+                    plumber,
+                    had
+                    saved the kingdom from countless threats, alongside his beloved companion, Shura. The bond between
+                    the
+                    two
+                    was unbreakable, and their adventures were legendary.
+                <p>
+                    However, fate had other plans in store. In a cruel twist of destiny, Mario met an untimely demise,
+                    leaving
+                    Shura heartbroken and devastated. The land mourned the loss of its hero, and the skies seemed grayer
+                    as
+                    darkness engulfed the kingdom.
+                </p>
+                <p>
+                    Filled with grief and an insatiable thirst for revenge, Shura refused to accept his master's fate.
+                    Determined to avenge Mario's death, he embarked on a perilous journey through the treacherous
+                    terrains
+                    of
+                    Mushroom Kingdom. But his once-playful demeanor had transformed into a fierce determination, fueled
+                    by a
+                    desire to rid the world of the monsters responsible for Mario's demise.
+                </p>
+                <p>
+                    In the shadows lurked a malevolent force - a sinister league of monsters, led by the ruthless King
+                    Koopa.
+                    This maleficent ruler had orchestrated Mario's downfall, seeking to plunge Mushroom Kingdom into
+                    eternal
+                    darkness. It was a battle between good and evil, with Shura at the helm.
+                </p>
+                <p>
+                    Equipped with courage, agility, and newfound powers, Shura ventured forth to face the monsters that
+                    plagued
+                    his world. As he navigated through lush forests, lava-filled dungeons, and perilous mountains, he
+                    encountered hordes of menacing foes. Each battle only strengthened Shura's resolve, and with every
+                    monster
+                    vanquished, he drew closer to the truth behind Mario's death.
+                </p>
+                <p>
+                    Along the way, Shura formed unexpected alliances with other inhabitants of the kingdom. Together,
+                    they
+                    united against the malevolent forces, facing unimaginable challenges, and proving that the bonds of
+                    friendship and love could conquer even the darkest of adversaries.
+                </p>
+                <p>
+                    As the days turned to nights, the journey grew more treacherous, testing Shura's limits and resolve.
+                    But
+                    he
+                    pushed forward, carrying the memory of Mario in his heart, and embracing the strength that came from
+                    love
+                    and vengeance.
+                </p>
+                <p>
+                    In the final confrontation, Shura faced King Koopa himself, the embodiment of all evil that had
+                    plagued
+                    Mushroom Kingdom. It was a battle of epic proportions, as the fate of the kingdom hung in the
+                    balance.
+                </p>
+                <p>
+                    With a triumphant roar and a heart full of love, Shura emerged victorious, banishing the malevolent
+                    forces
+                    and avenging Mario's death. The skies cleared, and the kingdom rejoiced as the darkness lifted,
+                    heralding a
+                    new era of peace and prosperity.
+                </p>
+                <p>
+                    Shura had become a legend, a hero in his own right, eternally bound to the memory of his beloved
+                    master,
+                    Mario. His tale of courage, love, and revenge would be told throughout generations, reminding all
+                    that
+                    even
+                    in the darkest moments, the strength of love could conquer all.
+                </p>
+                <p>
+                    Thus, in the magical land of Mushroom Kingdom, Shura's quest for revenge transformed him into a
+                    beacon
+                    of
+                    hope and inspiration, ensuring that the legacy of Mario would never be forgotten. And so, their
+                    adventures
+                    lived on, in the hearts and souls of those who believe in the power of love and friendship,
+                    forevermore.
+                </p>
+
+
+            </article>
+        </div>
+    </main>
+
+    <script type="module" src="game3test.mjs"></script>
+    <script  src="otherscripts.js"></script>
+
+</body>
+
+</html>
