@@ -20,15 +20,14 @@ canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 const timespan = 20;
 //dogstuff
-export const PlayerSpeed=5
+export const PlayerSpeed = 5;
 const dog = new Image();
 dog.src = "assets/shadow_dog.png";
-let run = new Audio("./assets/sounds/doggy.mp3");
+let run = document.getElementById("runSound");
 run.loop = true;
-run.volume = 0.1;
+run.volume = .1;
 
 let ground = CANVAS_HEIGHT * 0.87;
-
 
 export class Dog extends Terrestrial {
   constructor(
@@ -39,7 +38,7 @@ export class Dog extends Terrestrial {
     scale = 1,
     options = {
       initialLives: 3,
-      initialStateId: states.STANDING
+      initialStateId: states.STANDING,
     }
   ) {
     super(
@@ -58,35 +57,46 @@ export class Dog extends Terrestrial {
       0.5,
       { initialLives: options.initialLives }
     );
-    this.states =   [new Standing(this),new Jumping(this),new Falling(this),new Running(this),new Dazed(this),
-      new Sitting(this),new Rolling(this),new Dashing(this),new Dying(this),new Chilling(this)],
-    this.currentState = this.states[options.initialStateId||2];
-    this.currentState.enter()
-    this.currentStateIndex=options.initialStateId||2;
-    this.sequence=this.currentState.sequence;
+    (this.states = [
+      new Standing(this),
+      new Jumping(this),
+      new Falling(this),
+      new Running(this),
+      new Dazed(this),
+      new Sitting(this),
+      new Rolling(this),
+      new Dashing(this),
+      new Dying(this),
+      new Chilling(this),
+    ]),
+      (this.currentState = this.states[options.initialStateId || 2]);
+    this.currentState.enter();
+    this.currentStateIndex = options.initialStateId || 2;
+    this.sequence = this.currentState.sequence;
     this.jumpVelocity = -15;
     this.scale = scale;
     this.regularspeed = 0;
     this.isImmune = false;
-   
   }
-
 
   setState(state) {
-    state=Math.min(state,this.states.length-1)
-    this.index=0;
-    this.currentStateIndex=state;
+    state = Math.min(state, this.states.length - 1);
+    this.index = 0;
+    
+    this.currentStateIndex = state;
     this.currentState = this.states[state];
-    this.currentState.enter()
-  }
+    if ((state == states.RUNNING)) run.play();
+    else run.pause();
 
+    this.currentState.enter();
+  }
 
   update(lastKey, isPress) {
     this.px = Math.min(
       this.px,
-      CANVAS_WIDTH -  this.currentState.sequence.frameWidth * this.scale
-    )
-    this.currentStateIndex!=states.DYING&&(this.px = Math.max(this.px, 0))
+      CANVAS_WIDTH - this.currentState.sequence.frameWidth * this.scale
+    );
+    this.currentStateIndex != states.DYING && (this.px = Math.max(this.px, 0));
     if (this.py < 0) {
       this.ay = 0;
       this.vy = 0;
@@ -96,6 +106,3 @@ export class Dog extends Terrestrial {
     super.update();
   }
 }
-
-
-
