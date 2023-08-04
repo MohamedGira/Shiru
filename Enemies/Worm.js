@@ -8,11 +8,8 @@ export class Worm extends Enemy {
     super(canvas,Worm.sequence,animationSpeed,renderAtX,renderAtY,scale,foe,{score:5});
     this.vx = this.animationSpeed*-3
     this.py= ground- this.sequence.frameHeight*this.scale;
-    this.px= 500;
+    this.px= CANVAS_WIDTH;
     this.setOriginalSpeed(this.animationSpeed*-3)
   }
-  update(){
-    this.setVelocityX(this.orignalspeed-this.foe.vx*.2);
-    super.update();
-  }
+
 }

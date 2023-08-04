@@ -17,9 +17,8 @@ class Sequence {
     this.compressionScale=1
     if(this.image.width>1000||this.image.height>1000){
       let max=Math.max(this.image.width,this.image.height)
-      this.compressionScale=1000/max
+      this.compressionScale=1000/max;
     }
-
     this.offset = offset;
     this.compressedframeHeight = this.frameHeight*this.compressionScale;
     this.compressedframeWidth = this.frameWidth*this.compressionScale;
@@ -34,6 +33,7 @@ class Sequence {
     const context = canvas.getContext('2d');
     const smallWidth = this.image.width*this.compressionScale;
     const smallHeight = this.image.height*this.compressionScale;
+    console.log(smallHeight,smallWidth,'quantamina')
     canvas.width = smallWidth;
     canvas.height = smallHeight;
     context.drawImage(this.image, 0, 0, smallWidth, smallHeight);

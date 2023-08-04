@@ -26,7 +26,8 @@ export class Jumping extends State {
           !this.player.isoutOfScreen() && this.player.setVelocityX(PlayerSpeed);
           break;
         case "down":
-          this.player.setVelocityY(5);
+          this.player.setVelocityY(20);
+          this.player.setState(states.ROLLING);
           break;
         case "roll":
           this.player.setState(states.ROLLING);

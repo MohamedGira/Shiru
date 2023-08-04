@@ -1,10 +1,8 @@
 import Drawable from "./Drawable.js";
 import Sequence from "./Sequence.js";
 
-const explosionImage = new Image();
-explosionImage.src = "./assets/fire.png";
 
-const explosionSequence = new Sequence(explosionImage, 100, 90, 1, 0);
+const explosionSequence = new Sequence(document.getElementById("fireImg"), 100, 90, 1, 0);
 
 export class Trail extends Drawable {
   constructor(canvas, animationSpeed, renderAtX, renderAtY, scale = 1) {

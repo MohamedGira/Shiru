@@ -40,20 +40,22 @@ export class InputHandler {
       }
     });
     window.addEventListener("touchstart", (event) => {
-      this.handleSwipe(
-        "roll",
+      if (
         event.changedTouches[event.changedTouches.length - 1].clientX <
           window.innerWidth / 4 &&
-          event.changedTouches[event.changedTouches.length - 1].clientY >
-            3*window.innerHeight/ 4
-      );
+        event.changedTouches[event.changedTouches.length - 1].clientY >
+          (3 * window.innerHeight) / 4
+      ) {
+        this.handleSwipe("roll", true);
+        setTimeout(()=>{this.handleSwipe("roll", false)},150)
+      }
       this.touchStart = {
         x: event.changedTouches[0].clientX,
         y: event.changedTouches[0].clientY,
       };
     });
     window.addEventListener("touchmove", (event) => {
-      console.log(event.changedTouches)
+      console.log(event.changedTouches);
       this.handleSwipe(
         "up",
         this.touchStart.y - event.changedTouches[0].clientY >

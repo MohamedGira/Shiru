@@ -8,7 +8,7 @@ export function getSequence(
   framesCount,
   offset
 ) {
-  console.log("loading")
+  while(document.getElementById(imgId)==null);
   let sequence = new Sequence(
     document.getElementById(imgId),
     frameWidth,

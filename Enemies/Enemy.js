@@ -3,7 +3,6 @@ import Drawable from "../Drawable.js";
 import {getSequence} from "../utils/getSequence.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
 
-const enemyScale=.3
 export class Enemy extends Drawable {
   constructor(
     canvas,
@@ -44,7 +43,6 @@ export class Enemy extends Drawable {
 
 export class EnemyA extends Enemy {
   static sequence=getSequence('enemy1Img',293,153,6,0);
-
   constructor(
     canvas,
     animationSpeed,
@@ -74,9 +72,9 @@ export class EnemyB extends Enemy {
     foe
   ) {
     super(canvas, EnemyB.sequence, animationSpeed, renderAtX, renderAtY, scale, foe);
-    this.setVelocityX(-Math.random() * 3);
+    this.setOriginalSpeed(this.animationSpeed*-3)
     this.oscillateY(Math.random() * 5, 100);
-    this.px = CANVAS_WIDTH + this.sequence.frameWidth;
+    this.px = CANVAS_WIDTH ;
   }
 }
 
