@@ -22,10 +22,7 @@ export class Heart extends Drawable {
     this.gameFrame = 0;
     this.canvas = canvas;
     this.foe=foe
-    this.collisionEvent = new CustomEvent("collision", {
-      detail: { whoami: this },
-    });
-    CollisionDetector.detectCollesion(this, foe, this.collisionEvent);
+    
     this.setOriginalSpeed(Math.random() * -3);
     this.oscillateY(Math.random() * 3, 500);
     this.oscillateScale(0.2, 10);
