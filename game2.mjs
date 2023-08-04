@@ -80,7 +80,7 @@ window.addEventListener("load", () => {
     canvas.height - 120
   );
 
-  let rollbtn= new button(ctx,0,30,CANVAS_HEIGHT-100,{scale:.8})
+  let rollbtn= new button(ctx,0,30,CANVAS_HEIGHT-200,{scale:.8})
   let score = 0;
   let passed = 0,
     lastTime = 0;

@@ -58,8 +58,8 @@ export class InputHandler {
       };
 
       if (
-        touchStart.x > innerWidth * (1 - 220 / CANVAS_WIDTH) &&
-        touchStart.y > innerHeight * (1 - 220 / CANVAS_HEIGHT)
+        touchStart.x > innerWidth * (1 - 440 / CANVAS_WIDTH) &&
+        touchStart.y > innerHeight * (1 - 440 / CANVAS_HEIGHT)
       ) {
         this.touchStart = touchStart;
       }
