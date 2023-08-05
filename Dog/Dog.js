@@ -20,7 +20,7 @@ const timespan = 20;
 //dogstuff
 export const PlayerSpeed = 5;
 
-let run = document.getElementById("runSound");
+export let run = document.getElementById("runSound");
 run.loop = true;
 run.volume = .1;
 
@@ -90,7 +90,7 @@ export class Dog extends Terrestrial {
   jump(){
     this.vy += this.jumpVelocity;
   }
-  update(lastKey, isPress) {
+  update(lastKey, isPress,deltaXPercent,deltaTime) {
     this.px = Math.min(
       this.px,
       CANVAS_WIDTH - this.currentState.sequence.frameWidth * this.scale
@@ -101,7 +101,7 @@ export class Dog extends Terrestrial {
       this.vy = 0;
       this.py = 10;
     }
-    this.currentState.handleInput(lastKey, isPress);
-    super.update();
+    this.currentState.handleInput(lastKey, isPress,deltaXPercent);
+    super.update(deltaTime);
   }
 }

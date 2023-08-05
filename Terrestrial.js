@@ -13,8 +13,8 @@ export class Terrestrial extends Drawable {
   ) {
     super(canvas, sequence, animationSpeed, renderAtX, renderAtY, scale);
   }
-  update() {
-    super.update();
+  update(deltaTime) {
+    super.update(deltaTime);
     this.gravity();
     this.friction();
   }

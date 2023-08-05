@@ -29,8 +29,8 @@ export class Heart extends Drawable {
     this.px = CANVAS_WIDTH;
     
   }
-  update(){
+  update(deltaTime){
     this.setVelocityX(this.orignalspeed-this.foe.vx*.2);
-    super.update();
+    super.update(deltaTime);
   }
 }

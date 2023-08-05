@@ -22,7 +22,7 @@ export class Ghost extends Enemy {
     this.angley = Math.random();
     this.anglexSpeed = Math.random() * 2;
   }
-  update() {
+  update(deltaTime) {
     this.anglex += this.anglexSpeed;
     this.angley += this.anglexSpeed;
     this.changeVelocity(
@@ -30,6 +30,6 @@ export class Ghost extends Enemy {
       Math.cos((this.angley * Math.PI) / 180)*.02
     );
 
-    super.update();
+    super.update(deltaTime);
   }
 }

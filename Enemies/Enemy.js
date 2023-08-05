@@ -28,10 +28,10 @@ export class Enemy extends Drawable {
   }
 
 
-  update() {
+  update(passed) {
     this.setVelocityX(this.orignalspeed-this.foe.vx*.2);
     this.outOfScreen=this.isoutOfScreen();
-    super.update();
+    super.update(passed);
   }
 }
 
@@ -49,10 +49,10 @@ export class EnemyA extends Enemy {
   ) {
     super(canvas, EnemyA.sequence, animationSpeed, renderAtX, renderAtY, scale, foe);
   }
-  update() {
+  update(passed) {
     this.noiseMoveY(0.2);
     this.noiseMoveX(0.2);
-    super.update();
+    super.update(passed);
   }
 }
 
@@ -93,7 +93,7 @@ export class EnemyD extends Enemy {
     this.newX = (Math.random() * CANVAS_WIDTH) / 2;
     this.newY = (Math.random() * CANVAS_HEIGHT) / 2;
   }
-  update() {
+  update(deltaTime) {
     if (this.index % this.moveEvery == 0) {
       this.randomizePosition();
       this.vx = (this.newX - this.px) / 50;
@@ -102,6 +102,6 @@ export class EnemyD extends Enemy {
     this.vx *= 0.99;
     this.vy *= 0.99;
 
-    super.update();
+    super.update(deltaTime);
   }
 }

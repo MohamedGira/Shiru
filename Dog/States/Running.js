@@ -14,17 +14,21 @@ export class Running extends State {
     super.enter();
   }
 
-  handleInput(lastKey, isPress = false) {
-    if (isPress)
+  handleInput(lastKey, isPress = false, deltaXPercent =undefined) {
+    if (isPress) {
+      deltaXPercent ===undefined&& (deltaXPercent=1);
       switch (lastKey) {
         case "left":
-          this.player.animationSpeed = this.animationSpeed * 0.8;
+          this.player.animationSpeed =
+            this.animationSpeed * (1 - 0.2 * deltaXPercent);
           !this.player.isoutOfScreen() &&
-            this.player.setVelocityX(-PlayerSpeed);
+            this.player.setVelocityX( Math.min(PlayerSpeed *deltaXPercent,-PlayerSpeed));
           break;
         case "right":
-          this.player.animationSpeed = this.animationSpeed * 1.2;
-          !this.player.isoutOfScreen() && this.player.setVelocityX(PlayerSpeed);
+          this.player.animationSpeed =
+            this.animationSpeed * (1+ .2 * deltaXPercent);
+          !this.player.isoutOfScreen() &&
+            this.player.setVelocityX(Math.max(PlayerSpeed *deltaXPercent,this.player.vx));
           break;
         case "up":
           this.player.setState(states.JUMPING);
@@ -37,7 +41,7 @@ export class Running extends State {
         case "dash":
           this.player.setState(states.DASHING);
       }
-    else {
+    } else {
       this.player.setVelocityX(0);
       this.player.animationSpeed = this.animationSpeed;
       //this.player.setState(states.STANDING);
