@@ -49,17 +49,16 @@ export class InputHandler {
           window.innerHeight * (1 - 250 / CANVAS_HEIGHT)
       ) {
         this.handleSwipe("roll", true);
-        setTimeout(() => {
-          this.handleSwipe("roll", false);
-        }, 200);      }
+      }
       let touchStart = {
         x: event.changedTouches[0].clientX,
         y: event.changedTouches[0].clientY,
       };
-      let {deltaWidth,deltaHeight,rectangleWidth,rectangleHeight}=getCanvasCoordinates();
+      let { deltaWidth, deltaHeight, rectangleWidth, rectangleHeight } =
+        getCanvasCoordinates();
       if (
-        (touchStart.x) > deltaWidth+rectangleWidth * (1 - 330 / CANVAS_WIDTH) &&
-        (touchStart.y) > deltaHeight+rectangleHeight * (1 - 330 / CANVAS_HEIGHT)
+        touchStart.x > deltaWidth + rectangleWidth * (1 - 330 / CANVAS_WIDTH) &&
+        touchStart.y > deltaHeight + rectangleHeight * (1 - 330 / CANVAS_HEIGHT)
       ) {
         this.touchStart = touchStart;
       }
@@ -99,7 +98,8 @@ export class InputHandler {
         this.touchCurrent = null;
         this.activeKeys.clear();
         this.isPress = false;
-      }
+      } 
+        this.handleSwipe("roll", false);
     });
   }
   handleSwipe(movename, condition) {
