@@ -156,7 +156,6 @@ window.addEventListener("load", () => {
         enemy.animate();
       });
       const {rectangleWidth,rectangleHeight,deltaHeight,deltaWidth}=getCanvasCoordinates();
-      console.log(deltaHeight)
       inputHandler.touchCurrent
         ? t.handleInnerPos(
             ((inputHandler.touchCurrent.x-deltaWidth) / rectangleWidth) * CANVAS_WIDTH,
@@ -226,7 +225,7 @@ window.addEventListener("load", () => {
               score += en.options.score;
             else if (puppy.currentStateIndex != states.DAZED) {
               puppy.lives.decrementLives();
-              puppy.setState(states.DAZED);
+              this.lives.live?puppy.setState(states.DAZED):puppy.setState(states.DYING);
             }
           } else if (en instanceof Heart) {
             puppy.lives.incrementLives();
