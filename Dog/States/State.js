@@ -1,4 +1,4 @@
-import Sequence from "../../Sequence.js";
+import Sequence from "../../utils/Sequence.js";
 
 export const states = {
   STANDING: 0,

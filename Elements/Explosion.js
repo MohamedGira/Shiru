@@ -1,5 +1,5 @@
-import Drawable from "./Drawable.js";
-import Sequence from "./Sequence.js";
+import Drawable from "../Interfaces/Drawable.js";
+import Sequence from "../utils/Sequence.js";
 
 const explosionSequence = new Sequence(
   document.getElementById("boomImg"),

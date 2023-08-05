@@ -1,6 +1,7 @@
-import { getSequence } from "../utils/getSequence.js";
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
+import { getSequence } from "../../utils/getSequence.js";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../../utils/globals.js";
 import { Enemy } from "./Enemy.js";
+
 
 export class Ghost extends Enemy {
   static sequence = getSequence("enemy3Img", 218, 177, 6, 0);
@@ -31,5 +32,6 @@ export class Ghost extends Enemy {
     );
 
     super.update(deltaTime);
+    
   }
 }

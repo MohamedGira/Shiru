@@ -1,5 +1,5 @@
 import { Physical } from "./Physical.js";
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
 
 class Drawable extends Physical {
   //A class that Takes An Image,sequence of position, and animationSpeed, and renders it in the given postion

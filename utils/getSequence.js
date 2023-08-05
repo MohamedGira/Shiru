@@ -1,4 +1,4 @@
-import Sequence from "../Sequence.js";
+import Sequence from "./Sequence.js";
 
 
 export function getSequence(

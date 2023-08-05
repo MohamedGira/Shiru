@@ -1,17 +1,19 @@
+import { Terrestrial } from "../Interfaces/Terrestrial.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
-import { Terrestrial } from "../Terrestrial.js";
-import { Lives } from "../Lives.js";
+
 import { states } from "./States/State.js";
-import { Standing } from "./States/Standing.js";
+import { Standing } from"./States/Standing.js";
 import { Jumping } from "./States/Jumping.js";
 import { Falling } from "./States/Falling.js";
 import { Running } from "./States/Running.js";
 import { Sitting } from "./States/Sitting.js";
-import { Dazed } from "./States/Dazed.js";
-import { Chilling } from "./States/Chilling.js";
+import { Dazed } from   "./States/Dazed.js";
+import { Chilling } from"./States/Chilling.js";
 import { Rolling } from "./States/Rolling.js";
 import { Dashing } from "./States/Dashing.js";
-import { Dying } from "./States/Dying.js";
+import { Dying } from "./States/Dying.js"
+;
+import { Lives } from "../Elements/Lives.js";
 
 const canvas = document.getElementById("game");
 canvas.width = CANVAS_WIDTH;

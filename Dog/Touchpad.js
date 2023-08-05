@@ -1,5 +1,6 @@
-import Drawable from "../Drawable.js";
+import Drawable from "../Interfaces/Drawable.js";
 import { getSequence } from "../utils/getSequence.js";
+
 
 export class TouchPad {
   constructor(

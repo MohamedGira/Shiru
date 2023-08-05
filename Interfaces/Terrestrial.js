@@ -1,6 +1,6 @@
+import { ground } from "../utils/globals.js";
+import { f, g } from "../utils/globals.js";
 import Drawable from "./Drawable.js";
-import { ground } from "./utils/globals.js";
-import { f, g } from "./utils/globals.js";
 export class Terrestrial extends Drawable {
   /* A Drawable affected by gravity &drag forces */
   constructor(

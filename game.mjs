@@ -1,24 +1,29 @@
-import { Enemy, EnemyA, EnemyB, EnemyD } from "./Enemies/Enemy.js";
+import { Enemy, EnemyA, EnemyB, EnemyD } from "./Elements/Enemies/Enemy.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
 import { getBgs } from "./Layer.js";
-import { Explosion } from "./Explosion.js";
-import { Ghost } from "./Enemies/Ghost.js";
-import { Worm } from "./Enemies/Worm.js";
-import { Trail } from "./Trail.js";
+
+
+
+import { Explosion } from "./Elements/Explosion.js";
+import { Worm } from "./Elements/Enemies/Worm.js";
+import { Trail } from "./Elements/Trail.js";
+import { Heart } from "./Elements/Heart.js";
+import { Ghost } from "./Elements/Enemies/Ghost.js";
+
+
 import { showMessage } from "./utils/showMessage.js";
-import { Heart } from "./Heart.js";
 import { InputHandler, getCanvasCoordinates } from "./Dog/InputHandler.js";
 import { states } from "./Dog/States/State.js";
 import { Dog, run } from "./Dog/Dog.js";
-import { CollisionDetector } from "./CollisionDetector.js";
 import { TouchPad, button } from "./Dog/Touchpad.js";
+import { CollisionDetector } from "./utils/CollisionDetector.js";
 import { isMobile } from "./utils/checkMobile.js";
 
 export const canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
 const timeInterval = 2000;
 let drawables = [];
-let music = new Audio("./assets/sounds/the_field_of_dreams.mp3");
+let music = document.getElementById("themeSong");
 music.loop = true;
 var myFont = new FontFace("Pixels", "url(assets/VT323/VT323-Regular.ttf)");
 
@@ -257,6 +262,7 @@ window.addEventListener("load", () => {
       passed = 0;
     }
   }
+
   document.getElementById("loader").style.display = "none";
   play.style.display = "block";
 

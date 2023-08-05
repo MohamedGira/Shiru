@@ -1,7 +1,7 @@
-import { CollisionDetector } from "../CollisionDetector.js";
-import Drawable from "../Drawable.js";
-import {getSequence} from "../utils/getSequence.js";
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
+
+import Drawable from "../../Interfaces/Drawable.js";
+import {getSequence} from "../../utils/getSequence.js";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../../utils/globals.js";
 
 export class Enemy extends Drawable {
   constructor(

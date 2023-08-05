@@ -1,7 +1,7 @@
-import Drawable from "./Drawable.js";
-import Sequence from "./Sequence.js";
-import { CANVAS_WIDTH } from "./utils/globals.js";
-import { showMessage } from "./utils/showMessage.js";
+import Drawable from "../Interfaces/Drawable.js";
+import Sequence from "../utils/Sequence.js";
+import { CANVAS_WIDTH } from "../utils/globals.js";
+import { showMessage } from "../utils/showMessage.js";
 
 
 const liveSequence = new Sequence(document.getElementById('livesImg'), 50, 50, 1, 0);

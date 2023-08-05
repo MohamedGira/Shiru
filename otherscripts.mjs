@@ -1,4 +1,4 @@
-import { isMobile } from "./utils/checkMobile";
+import { isMobile } from "./utils/checkMobile.js";
 
 let controls = document.getElementById("controlsList");
 let overlay = document.getElementById("overlay");

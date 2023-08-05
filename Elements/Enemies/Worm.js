@@ -1,5 +1,5 @@
-import { getSequence } from "../utils/getSequence.js";
-import { CANVAS_HEIGHT, CANVAS_WIDTH, ground } from "../utils/globals.js";
+import { getSequence } from "../../utils/getSequence.js";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../../utils/globals.js";
 import { Enemy } from "./Enemy.js";
 
 export class Worm extends Enemy {

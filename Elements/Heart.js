@@ -1,7 +1,7 @@
-import { CollisionDetector } from "./CollisionDetector.js";
-import Drawable from "./Drawable.js";
-import { getSequence } from "./utils/getSequence.js";
-import { CANVAS_WIDTH } from "./utils/globals.js";
+import Drawable from "../Interfaces/Drawable.js";
+import { getSequence } from "../utils/getSequence.js";
+import { CANVAS_WIDTH } from "../utils/globals.js";
+
 export class Heart extends Drawable {
   static sequence = getSequence("heartImg", 50, 50, 1, 0);
 
