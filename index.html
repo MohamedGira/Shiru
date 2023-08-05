@@ -6,48 +6,50 @@
     <title>Shura</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+
+<body style="display: flex; flex-direction: column; gap:2rem">
     <div style="display: none;">
-            <img src="assets/enemies/boom.png" id="boomImg">
-            <img src="assets/enemies/enemy1.png" id="enemy1Img">
-            <img src="assets/enemies/enemy2.png" id="enemy2Img">
-            <img src="assets/enemies/enemy3.png" id="enemy3Img">
-            <img src="assets/enemies/enemy4.png" id="enemy4Img">
-            <img src="assets/enemies/enemy_worm.png" id="wormImg">
-            <img src="assets/heart.png" id="heartImg">
-            <img src="assets/lives.png" id="livesImg">
-            <img src="assets/layer-1.png" id="layer1Img">
-            <img src="assets/layer-2.png" id="layer2Img">
-            <img src="assets/layer-3.png" id="layer3Img">
-            <img src="assets/layer-4.png" id="layer4Img">
-            <img src="assets/layer-5.png" id="layer5Img">
-            <img src="assets/fire.png" id="fireImg">
-            <img src="assets/shadow_dog.png" id="dogImg">
-            <img src="assets/play.png" id="playKey">
-            <img src="assets/tryAgain.png" id="tryAgainKey">
-            <img src="assets/roll.png" id="rollBtn">
-            <audio src="assets/sounds/fire.mp3" id="fireSound"></audio>
-            <audio src="assets/sounds/fire2.mp3" id="fire2Sound"></audio>
-            <audio src="assets/sounds/fire4.mp3" id="fire4Sound"></audio>
-            <audio src="assets/sounds/the_field_of_dreams.mp3" id="themeSong"></audio>
-            <audio src="assets/sounds/doggy.mp3" id="runSound"></audio>
+        <img src="assets/enemies/boom.png" id="boomImg">
+        <img src="assets/enemies/enemy1.png" id="enemy1Img">
+        <img src="assets/enemies/enemy2.png" id="enemy2Img">
+        <img src="assets/enemies/enemy3.png" id="enemy3Img">
+        <img src="assets/enemies/enemy4.png" id="enemy4Img">
+        <img src="assets/enemies/enemy_worm.png" id="wormImg">
+        <img src="assets/heart.png" id="heartImg">
+        <img src="assets/lives.png" id="livesImg">
+        <img src="assets/layer-1.png" id="layer1Img">
+        <img src="assets/layer-2.png" id="layer2Img">
+        <img src="assets/layer-3.png" id="layer3Img">
+        <img src="assets/layer-4.png" id="layer4Img">
+        <img src="assets/layer-5.png" id="layer5Img">
+        <img src="assets/fire.png" id="fireImg">
+        <img src="assets/shadow_dog.png" id="dogImg">
+        <img src="assets/play.png" id="playKey">
+        <img src="assets/tryAgain.png" id="tryAgainKey">
+        <img src="assets/roll.png" id="rollBtn">
+        <audio src="assets/sounds/fire.mp3" id="fireSound"></audio>
+        <audio src="assets/sounds/fire2.mp3" id="fire2Sound"></audio>
+        <audio src="assets/sounds/fire4.mp3" id="fire4Sound"></audio>
+        <audio src="assets/sounds/the_field_of_dreams.mp3" id="themeSong"></audio>
+        <audio src="assets/sounds/doggy.mp3" id="runSound"></audio>
     </div>
     <header>
         <h1 id="head">Shura</h1>
     </header>
     <div class="overlay" id="overlay"></div>
-    <main>
+    <main>        
+
         <a id="controls">Controls</a>
         <div class="content">
             <h2>Shura, The puppy of hell <img src="./assets/lives.png"></h2>
+            <p style="display: none;"id="click">Click on the game To Continue</p>
             <div class="withcontrols">
                 <div class="container">
                     <canvas id="game"></canvas>
                     <button id="play" class="playBtn"> <img id="btnImg" src="./assets/play.png" /> </button>
-                    <div id="loader"class="loader"></div>
-
+                    <div id="loader" class="loader"></div>
                 </div>
-                <ul class="controls" id =controlsList>
+                <ul class="controls" id=controlsList>
                     <h3>Controls</h3>
                     <li>
                         Jump
@@ -58,7 +60,7 @@
                         </ul>
                     </li>
                     <li>
-                        Move &rarr; &larr; 
+                        Move &rarr; &larr;
                         <ul>
                             <li><img class="key" src="./assets/keyboard/a.png" alt=""></li>
                             <li><img class="key" src="./assets/keyboard/d.png" alt=""></li>
@@ -72,10 +74,14 @@
                         <ul>
                             <li><img class="key" src="./assets/keyboard/r.png" alt=""></li>
                             <hr>
-                            <li><img class="key" src="./assets/keyboard/right.png" alt=""><p>+</p><img class="key" src="./assets/keyboard/down.png" alt=""></li>
-                            <hr>    
-                            <li><img class="key" src="./assets/keyboard/left.png" alt=""><p>+</p><img class="key" src="./assets/keyboard/down.png" alt=""></li>
-                            
+                            <li><img class="key" src="./assets/keyboard/right.png" alt="">
+                                <p>+</p><img class="key" src="./assets/keyboard/down.png" alt="">
+                            </li>
+                            <hr>
+                            <li><img class="key" src="./assets/keyboard/left.png" alt="">
+                                <p>+</p><img class="key" src="./assets/keyboard/down.png" alt="">
+                            </li>
+
                         </ul>
                     </li>
                 </ul>
@@ -173,7 +179,7 @@
     </main>
 
     <script type="module" src="game2.mjs"></script>
-    <script  src="otherscripts.js"></script>
+    <script src="otherscripts.js"></script>
 
 </body>
 

@@ -25,6 +25,7 @@ var myFont = new FontFace("Pixels", "url(assets/VT323/VT323-Regular.ttf)");
 myFont.load().then(function (font) {
   document.fonts.add(font);
 });
+let continueAnimating = true;
 
 window.addEventListener("load", () => {
   let drawablesTypes = [
@@ -80,18 +81,25 @@ window.addEventListener("load", () => {
     canvas.height - 120
   );
 
-  let rollbtn = new button(ctx, 0, 10, CANVAS_HEIGHT -120, { scale: 0.6 });
+  let rollbtn = new button(ctx, 0, 10, CANVAS_HEIGHT - 120, { scale: 0.6 });
   let score = 0;
   let passed = 0,
     lastTime = 0;
-  let continueAnimating = true;
 
   let play = document.getElementById("play");
   let puppy;
 
   let hide = true;
 
+  canvas.addEventListener("click", () => {
+    if (!document.fullscreenElement&&play.style.display=="none") {
+      music.play();
+      canvas.requestFullscreen().catch((err) => console.log(err));
+      screen.orientation.lock("landscape");
+    }
+  });
   play.addEventListener("click", () => {
+    play.style.display = "none";
     hide = true;
     const fadeout = setInterval(() => {
       try {
@@ -101,20 +109,21 @@ window.addEventListener("load", () => {
         clearInterval(fadeout);
       }
     }, 200);
-    music.play();
 
     continueAnimating = true;
     drawables = [];
-    puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 10 });
+    puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 3 });
     if (!document.fullscreenElement) {
+      music.play();
       canvas.requestFullscreen().catch((err) => console.log(err));
       screen.orientation.lock("landscape");
     }
     animate(0);
   });
+
   let enemyInterval = 0;
   let filterInterval = 0;
-  let isphone = isMobile() || true;
+  let isphone = isMobile();
   function animate(timeStamp) {
     continueAnimating && requestAnimationFrame(animate);
 
@@ -155,11 +164,14 @@ window.addEventListener("load", () => {
       drawables.forEach((enemy) => {
         enemy.animate();
       });
-      const {rectangleWidth,rectangleHeight,deltaHeight,deltaWidth}=getCanvasCoordinates();
+      const { rectangleWidth, rectangleHeight, deltaHeight, deltaWidth } =
+        getCanvasCoordinates();
       inputHandler.touchCurrent
         ? t.handleInnerPos(
-            ((inputHandler.touchCurrent.x-deltaWidth) / rectangleWidth) * CANVAS_WIDTH,
-            ((inputHandler.touchCurrent.y-deltaHeight )/ rectangleHeight) * CANVAS_HEIGHT
+            ((inputHandler.touchCurrent.x - deltaWidth) / rectangleWidth) *
+              CANVAS_WIDTH,
+            ((inputHandler.touchCurrent.y - deltaHeight) / rectangleHeight) *
+              CANVAS_HEIGHT
           )
         : t.resetInnerPos();
       [...boomsPool, ...trailsPool].forEach((boom) => {
@@ -225,7 +237,9 @@ window.addEventListener("load", () => {
               score += en.options.score;
             else if (puppy.currentStateIndex != states.DAZED) {
               puppy.lives.decrementLives();
-              this.lives.live?puppy.setState(states.DAZED):puppy.setState(states.DYING);
+              puppy.lives.lives
+                ? puppy.setState(states.DAZED)
+                : puppy.setState(states.DYING);
             }
           } else if (en instanceof Heart) {
             puppy.lives.incrementLives();
@@ -237,4 +251,9 @@ window.addEventListener("load", () => {
   }
   document.getElementById("loader").style.display = "none";
   play.style.display = "block";
+
+  document.addEventListener("fullscreenchange", () => {
+    continueAnimating = document.fullscreenElement;
+    continueAnimating ?animate(0):(play.style.display!="block"&&(document.getElementById("click").style.display="block"));
+  });
 });
