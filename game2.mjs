@@ -80,7 +80,7 @@ window.addEventListener("load", () => {
     canvas.height - 120
   );
 
-  let rollbtn= new button(ctx,0,30,CANVAS_HEIGHT-200,{scale:.8})
+  let rollbtn = new button(ctx, 0, 10, CANVAS_HEIGHT -120, { scale: 0.6 });
   let score = 0;
   let passed = 0,
     lastTime = 0;
@@ -114,7 +114,7 @@ window.addEventListener("load", () => {
   });
   let enemyInterval = 0;
   let filterInterval = 0;
-  let isphone=isMobile()||true;
+  let isphone = isMobile() || true;
   function animate(timeStamp) {
     continueAnimating && requestAnimationFrame(animate);
 
@@ -155,10 +155,12 @@ window.addEventListener("load", () => {
       drawables.forEach((enemy) => {
         enemy.animate();
       });
+      const {rectangleWidth,rectangleHeight,deltaHeight,deltaWidth}=getCanvasCoordinates();
+      console.log(deltaHeight)
       inputHandler.touchCurrent
         ? t.handleInnerPos(
-            (inputHandler.touchCurrent.x /window.innerWidth)*CANVAS_WIDTH,
-            (inputHandler.touchCurrent.y /window.innerHeight)*CANVAS_HEIGHT
+            ((inputHandler.touchCurrent.x-deltaWidth) / rectangleWidth) * CANVAS_WIDTH,
+            ((inputHandler.touchCurrent.y-deltaHeight )/ rectangleHeight) * CANVAS_HEIGHT
           )
         : t.resetInnerPos();
       [...boomsPool, ...trailsPool].forEach((boom) => {
@@ -175,8 +177,8 @@ window.addEventListener("load", () => {
         handleTrails(puppy);
       }
       puppy.lives.draw();
-      isphone&&t.draw();
-      isphone&&rollbtn.draw();
+      isphone && t.draw();
+      isphone && rollbtn.draw();
       if (puppy.currentStateIndex == states.DYING) {
         hide && canvas.animate([{ opacity: 1 }, { opacity: 0 }], 3000);
         const fadeout =
@@ -205,8 +207,11 @@ window.addEventListener("load", () => {
           }, 3000);
         hide = false;
       }
-      let collisionWith=CollisionDetector.betterDetectCollision(puppy, drawables)
-      if (collisionWith){
+      let collisionWith = CollisionDetector.betterDetectCollision(
+        puppy,
+        drawables
+      );
+      if (collisionWith) {
         let en = drawables[drawables.findIndex((el) => el == collisionWith)];
         if (puppy.currentStateIndex != states.DYING) {
           let ex = boomsPool[boomsPool.findIndex((el) => !el.isActive)];

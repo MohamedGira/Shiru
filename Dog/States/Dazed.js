@@ -9,7 +9,7 @@ export class Dazed extends State {
     );
   }
   enter() {
-    this.player.vx=-this.player.vx;
+    this.player.vx=0;
     this.player.vy=-this.player.vy;
     setTimeout(() => {
       this.player.setState(states.RUNNING)
