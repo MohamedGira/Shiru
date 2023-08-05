@@ -1,5 +1,9 @@
+import { isMobile } from "./utils/checkMobile";
+
 let controls = document.getElementById("controlsList");
 let overlay = document.getElementById("overlay");
+document.getElementById("controls").style.display = isMobile()?"none":"block";
+
 document.getElementById("controls").addEventListener("mouseover", () => {
   controls.style.display = "flex";
   overlay.style.display = "block";

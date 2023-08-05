@@ -94,7 +94,7 @@ export class InputHandler {
       }
     });
     window.addEventListener("touchend", (event) => {
-      if (event.changedTouches.length == 1) {
+      if (!event.touches.length ) {
         this.touchStart = null;
         this.touchCurrent = null;
         this.activeKeys.clear();
