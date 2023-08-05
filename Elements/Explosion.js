@@ -22,7 +22,6 @@ export class Explosion extends Drawable {
   }
 
   update(deltaTime) {
-    console.log(this.index , this.animationSpeed);
     if (this.index >= this.sequence.frames.length - 1) {
       this.index = 0;
       this.scale = 0;

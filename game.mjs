@@ -6,13 +6,13 @@ import { getBgs } from "./Layer.js";
 
 import { Explosion } from "./Elements/Explosion.js";
 import { Worm } from "./Elements/Enemies/Worm.js";
-import { Trail } from "./Elements/Trail.js";
+import { Trail, handleTrails } from "./Elements/Trail.js";
 import { Heart } from "./Elements/Heart.js";
 import { Ghost } from "./Elements/Enemies/Ghost.js";
 
 
 import { showMessage } from "./utils/showMessage.js";
-import { InputHandler, getCanvasCoordinates } from "./Dog/InputHandler.js";
+import { InputHandler } from "./Dog/InputHandler.js";
 import { states } from "./Dog/States/State.js";
 import { Dog, run } from "./Dog/Dog.js";
 import { TouchPad, button } from "./Dog/Touchpad.js";
@@ -55,36 +55,10 @@ window.addEventListener("load", () => {
       object: new Trail(ctx, 0.2, 0, 0, 0.2),
     });
   }
-  function handleTrails(forDrawable) {
-    let trail = trailsPool[trailsPool.findIndex((el) => !el.isActive)];
-    if (trail) {
-      trail.object.setPosition(
-        forDrawable.px +
-          forDrawable.physicalWidth / 2 +
-          Math.random() * 50 -
-          25,
-        forDrawable.py +
-          forDrawable.physicalHeight / 2 +
-          Math.random() * 50 -
-          25
-      );
-      trail.object.setVelocity(-forDrawable.vx * 0.2, -forDrawable.vy * 0.2);
-      trail.object.setAcceleration(0, -0.1);
-      trail.object.setScale(Math.random() * 1.4);
-      trail.isActive = true;
-    }
-  }
 
-  const inputHandler = new InputHandler();
-  let touchpad = new TouchPad(
-    ctx,
-    100,
-    30,
-    canvas.width - 120,
-    canvas.height - 120,
-    canvas.width - 120,
-    canvas.height - 120
-  );
+
+  const inputHandler = new InputHandler(canvas);
+  
   let rollbtn = new button(ctx, 0, 10, CANVAS_HEIGHT - 120, { scale: 0.6 });
 
   let score = 0;
@@ -132,12 +106,13 @@ window.addEventListener("load", () => {
   let totalpassed = 0;
   function animate(timeStamp) {
     continueAnimating && requestAnimationFrame(animate);
-
+    //needed time intervals
     let deltaTime = timeStamp - lastTime;
     lastTime = timeStamp;
     passed += deltaTime;
     enemyInterval += deltaTime;
     filterInterval += deltaTime;
+
     if (passed > 1000 / 150) {
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       //renreing backgrounds
@@ -146,6 +121,8 @@ window.addEventListener("load", () => {
         bg.update();
         bg.draw();
       });
+      
+      //adding new enemies     
       if (enemyInterval > Math.random() * 1000 + 1000) {
         let i = Math.floor(Math.random() * drawablesTypes.length);
         drawables.push(
@@ -160,47 +137,42 @@ window.addEventListener("load", () => {
         );
         enemyInterval = 0;
       }
-      //adding new enemies
+      //filter out of screen enemies
       if (filterInterval > timeInterval) {
         drawables = drawables.filter((enemy) => !enemy.outOfScreen);
-        console.log("filteres");
         filterInterval = 0;
       }
-
+      //animating enemies
       drawables.forEach((enemy) => {
         enemy.animate(deltaTime);
       });
-      const { rectangleWidth, rectangleHeight, deltaHeight, deltaWidth } =
-        getCanvasCoordinates();
-      inputHandler.touchCurrent
-        ? touchpad.handleInnerPos(
-            ((inputHandler.touchCurrent.x - deltaWidth) / rectangleWidth) *
-              CANVAS_WIDTH,
-            ((inputHandler.touchCurrent.y - deltaHeight) / rectangleHeight) *
-              CANVAS_HEIGHT
-          )
-        : touchpad.resetInnerPos();
+      //animating booms and trails
       [...boomsPool, ...trailsPool].forEach((boom) => {
         if (boom.object.scale <= 0.2) {
           boom.isActive = false;
         }
         boom.isActive && boom.object.animate(deltaTime);
       });
-
       showMessage(ctx, `Score: ${score}`);
       puppy.draw();
+      puppy.lives.draw();
+      isphone && inputHandler.touchpad.draw();
+      isphone && rollbtn.draw();
+      
+
+      /*Updates&handlings*/
+      isphone &&inputHandler.handleTouchPad()
+
       puppy.update(
         inputHandler.lastKey,
         inputHandler.isPress,
-        touchpad.deltaXPercent,
+        inputHandler.touchpad.deltaXPercent,
         deltaTime
       );
-      if (puppy.currentStateIndex == states.ROLLING) {
-        handleTrails(puppy);
-      }
-      puppy.lives.draw();
-      isphone && touchpad.draw();
-      isphone && rollbtn.draw();
+
+      
+      (puppy.currentStateIndex == states.ROLLING)&&handleTrails(puppy,trailsPool)
+      
       if (puppy.currentStateIndex == states.DYING) {
         hide && canvas.animate([{ opacity: 1 }, { opacity: 0 }], 3000);
         const fadeout =
@@ -229,11 +201,14 @@ window.addEventListener("load", () => {
           }, 3000);
         hide = false;
       }
+
+      //collision detection
       let collisionWith = CollisionDetector.betterDetectCollision(
         puppy,
         drawables
       );
       if (collisionWith) {
+        //handling collision
         let en = drawables[drawables.findIndex((el) => el == collisionWith)];
         if (puppy.currentStateIndex != states.DYING) {
           let ex = boomsPool[boomsPool.findIndex((el) => !el.isActive)];
@@ -245,7 +220,7 @@ window.addEventListener("load", () => {
 
           drawables = drawables.filter((el) => el != en);
           if (en instanceof Enemy) {
-            if (puppy.currentStateIndex == states.ROLLING || puppy.py < en.py) {
+            if (puppy.currentStateIndex == states.ROLLING || puppy.py+puppy.physicalWidth < en.py) {
               score += en.options.score;
               puppy.currentStateIndex != states.ROLLING&&puppy.py < en.py && (puppy.vy = -puppy.vy);
             } else if (puppy.currentStateIndex != states.DAZED) {
@@ -265,7 +240,7 @@ window.addEventListener("load", () => {
 
   document.getElementById("loader").style.display = "none";
   play.style.display = "block";
-
+  
   document.addEventListener("fullscreenchange", () => {
     continueAnimating = document.fullscreenElement;
     !document.fullscreenElement&&music.pause();
@@ -275,4 +250,5 @@ window.addEventListener("load", () => {
       : play.style.display != "block" &&
         (document.getElementById("click").style.display = "block");
   });
+  
 });

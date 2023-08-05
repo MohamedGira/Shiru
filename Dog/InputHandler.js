@@ -1,7 +1,8 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
+import { TouchPad } from "./Touchpad.js";
 
 export class InputHandler {
-  constructor() {
+  constructor(canvas) {
     this.lastKey = null;
     this.isPress = undefined;
     this.activeKeys = new Set();
@@ -9,7 +10,16 @@ export class InputHandler {
     this.touchCurrent = null;
     this.touchY = 0;
     this.touchThreshold = 30;
-    this.deltaX=0;
+    this.deltaX = 0;
+    this.touchpad = new TouchPad(
+      canvas.getContext("2d"),
+      100,
+      30,
+      canvas.width - 120,
+      canvas.height - 120,
+      canvas.width - 120,
+      canvas.height - 120
+    );
     this.acceptedKeys = [
       "KeyW",
       "ArrowUp",
@@ -77,13 +87,11 @@ export class InputHandler {
         );
         this.handleSwipe(
           "right",
-          event.changedTouches[0].clientX - this.touchStart.x >
-            5
+          event.changedTouches[0].clientX - this.touchStart.x > 5
         );
         this.handleSwipe(
           "left",
-          this.touchStart.x - event.changedTouches[0].clientX >
-          5
+          this.touchStart.x - event.changedTouches[0].clientX > 5
         );
         this.handleSwipe(
           "down",
@@ -94,13 +102,13 @@ export class InputHandler {
       }
     });
     window.addEventListener("touchend", (event) => {
-      if (!event.touches.length ) {
+      if (!event.touches.length) {
         this.touchStart = null;
         this.touchCurrent = null;
         this.activeKeys.clear();
         this.isPress = false;
-      } 
-        this.handleSwipe("roll", false);
+      }
+      this.handleSwipe("roll", false);
     });
   }
   handleSwipe(movename, condition) {
@@ -146,6 +154,18 @@ export class InputHandler {
         this.lastKey = "dash";
         break;
     }
+  }
+
+  handleTouchPad(){
+    const { rectangleWidth, rectangleHeight, deltaHeight, deltaWidth } =getCanvasCoordinates();
+    this.touchCurrent
+      ? this.touchpad.handleInnerPos(
+          ((this.touchCurrent.x - deltaWidth) / rectangleWidth) *
+            CANVAS_WIDTH,
+          ((this.touchCurrent.y - deltaHeight) / rectangleHeight) *
+            CANVAS_HEIGHT
+        )
+      : this.touchpad.resetInnerPos();
   }
 }
 function getLastValue(set) {
