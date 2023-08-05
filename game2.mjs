@@ -264,7 +264,7 @@ window.addEventListener("load", () => {
     continueAnimating = document.fullscreenElement;
     !document.fullscreenElement&&music.pause();
     !document.fullscreenElement&&run.pause();
-    continueAnimating&&CANVAS_WIDTH=window.innerWidth
+    continueAnimating&&(CANVAS_WIDTH=window.innerWidth) 
     continueAnimating
       ? animate(0)
       : play.style.display != "block" &&
