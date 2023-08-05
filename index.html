@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <title>Shura</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 </head>
 
-<body style="display: flex; flex-direction: column; gap:2rem">
+<body>
     <div style="display: none;">
         <img src="assets/enemies/boom.png" id="boomImg">
         <img src="assets/enemies/enemy1.png" id="enemy1Img">
@@ -37,55 +38,55 @@
         <h1 id="head">Shura</h1>
     </header>
     <div class="overlay" id="overlay"></div>
-    <main>        
 
+    <main>
+        <h2>Shura, The puppy of hell <img src="./assets/lives.png"></h2>
         <a id="controls">Controls</a>
-        <div class="content">
-            <h2>Shura, The puppy of hell <img src="./assets/lives.png"></h2>
-            <p style="display: none;"id="click">Click on the game To Continue</p>
-            <div class="withcontrols">
-                <div class="container">
-                    <canvas id="game"></canvas>
-                    <button id="play" class="playBtn"> <img id="btnImg" src="./assets/play.png" /> </button>
-                    <div id="loader" class="loader"></div>
-                </div>
-                <ul class="controls" id=controlsList>
-                    <h3>Controls</h3>
-                    <li>
-                        Jump
-                        <ul>
-                            <li><img class="key" src="./assets/keyboard/up.png" alt=""></li>
-                            <li><img class="key" src="./assets/keyboard/w.png" alt=""></li>
-                            <li><img class="key" src="./assets/keyboard/space.png" alt=""></li>
-                        </ul>
-                    </li>
-                    <li>
-                        Move &rarr; &larr;
-                        <ul>
-                            <li><img class="key" src="./assets/keyboard/a.png" alt=""></li>
-                            <li><img class="key" src="./assets/keyboard/d.png" alt=""></li>
-                            <hr>
-                            <li><img class="key" src="./assets/keyboard/left.png" alt=""></li>
-                            <li><img class="key" src="./assets/keyboard/right.png" alt=""></li>
-                        </ul>
-                    </li>
-                    <li>
-                        Roll
-                        <ul>
-                            <li><img class="key" src="./assets/keyboard/r.png" alt=""></li>
-                            <hr>
-                            <li><img class="key" src="./assets/keyboard/right.png" alt="">
-                                <p>+</p><img class="key" src="./assets/keyboard/down.png" alt="">
-                            </li>
-                            <hr>
-                            <li><img class="key" src="./assets/keyboard/left.png" alt="">
-                                <p>+</p><img class="key" src="./assets/keyboard/down.png" alt="">
-                            </li>
-
-                        </ul>
-                    </li>
-                </ul>
+        <p style="display: none;" id="click">Click on the game To Continue</p>
+        <div class="withcontrols">
+            <div class="container">
+                <canvas id="game"></canvas>
+                <button id="play" class="playBtn"> <img id="btnImg" src="./assets/play.png" /> </button>
+                <div id="loader" class="loader"></div>
             </div>
+            <ul class="controls" id=controlsList>
+                <h3>Controls</h3>
+                <li>
+                    Jump
+                    <ul>
+                        <li><img class="key" src="./assets/keyboard/up.png" alt=""></li>
+                        <li><img class="key" src="./assets/keyboard/w.png" alt=""></li>
+                        <li><img class="key" src="./assets/keyboard/space.png" alt=""></li>
+                    </ul>
+                </li>
+                <li>
+                    Move &rarr; &larr;
+                    <ul>
+                        <li><img class="key" src="./assets/keyboard/a.png" alt=""></li>
+                        <li><img class="key" src="./assets/keyboard/d.png" alt=""></li>
+                        <hr>
+                        <li><img class="key" src="./assets/keyboard/left.png" alt=""></li>
+                        <li><img class="key" src="./assets/keyboard/right.png" alt=""></li>
+                    </ul>
+                </li>
+                <li>
+                    Roll
+                    <ul>
+                        <li><img class="key" src="./assets/keyboard/r.png" alt=""></li>
+                        <hr>
+                        <li><img class="key" src="./assets/keyboard/right.png" alt="">
+                            <p>+</p><img class="key" src="./assets/keyboard/down.png" alt="">
+                        </li>
+                        <hr>
+                        <li><img class="key" src="./assets/keyboard/left.png" alt="">
+                            <p>+</p><img class="key" src="./assets/keyboard/down.png" alt="">
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
             <article>
                 <h2>Shura's Quest for Revenge</h2>
                 <br>
@@ -177,9 +178,12 @@
             </article>
         </div>
     </main>
+    <footer>
+        <p>Created by <a href="https://github.com/MohamedGira">Mohamed Gira <i class='bx bxl-github'></i></a>
+    </footer>
 
     <script type="module" src="game.mjs"></script>
-    <script type="module"src="otherscripts.mjs"></script>
+    <script type="module" src="otherscripts.mjs"></script>
 
 </body>
 

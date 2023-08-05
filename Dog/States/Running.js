@@ -44,7 +44,6 @@ export class Running extends State {
     } else {
       this.player.setVelocityX(0);
       this.player.animationSpeed = this.animationSpeed;
-      //this.player.setState(states.STANDING);
     }
     super.handleInput();
   }

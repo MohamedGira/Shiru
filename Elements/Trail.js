@@ -16,7 +16,7 @@ export class Trail extends Drawable {
       renderAtY,
       scale
     );
-    
+    !Trail.prototype.sequence&&(Trail.prototype.sequence=new Sequence(document.getElementById("fireImg"), 100, 90, 1, 0))
   }
 
   

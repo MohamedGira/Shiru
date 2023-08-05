@@ -2,14 +2,11 @@ import { Enemy, EnemyA, EnemyB, EnemyD } from "./Elements/Enemies/Enemy.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
 import { getBgs } from "./Layer.js";
 
-
-
 import { Explosion } from "./Elements/Explosion.js";
 import { Worm } from "./Elements/Enemies/Worm.js";
 import { Trail, handleTrails } from "./Elements/Trail.js";
 import { Heart } from "./Elements/Heart.js";
 import { Ghost } from "./Elements/Enemies/Ghost.js";
-
 
 import { showMessage } from "./utils/showMessage.js";
 import { InputHandler } from "./Dog/InputHandler.js";
@@ -31,8 +28,11 @@ myFont.load().then(function (font) {
   document.fonts.add(font);
 });
 let continueAnimating = true;
-
 window.addEventListener("load", () => {
+  let run = document.getElementById("runSound");
+  run.loop = true;
+  run.volume = 0.1;
+
   let drawablesTypes = [
     { drawable: EnemyA, scale: 0.3 },
     { drawable: EnemyB, scale: 0.3 },
@@ -56,9 +56,8 @@ window.addEventListener("load", () => {
     });
   }
 
-
   const inputHandler = new InputHandler(canvas);
-  
+
   let rollbtn = new button(ctx, 0, 10, CANVAS_HEIGHT - 120, { scale: 0.6 });
 
   let score = 0;
@@ -103,7 +102,6 @@ window.addEventListener("load", () => {
   let enemyInterval = 0;
   let filterInterval = 0;
   let isphone = isMobile();
-  let totalpassed = 0;
   function animate(timeStamp) {
     continueAnimating && requestAnimationFrame(animate);
     //needed time intervals
@@ -121,8 +119,8 @@ window.addEventListener("load", () => {
         bg.update();
         bg.draw();
       });
-      
-      //adding new enemies     
+
+      //adding new enemies
       if (enemyInterval > Math.random() * 1000 + 1000) {
         let i = Math.floor(Math.random() * drawablesTypes.length);
         drawables.push(
@@ -158,10 +156,9 @@ window.addEventListener("load", () => {
       puppy.lives.draw();
       isphone && inputHandler.touchpad.draw();
       isphone && rollbtn.draw();
-      
 
       /*Updates&handlings*/
-      isphone &&inputHandler.handleTouchPad()
+      isphone && inputHandler.handleTouchPad();
 
       puppy.update(
         inputHandler.lastKey,
@@ -170,9 +167,9 @@ window.addEventListener("load", () => {
         deltaTime
       );
 
-      
-      (puppy.currentStateIndex == states.ROLLING)&&handleTrails(puppy,trailsPool)
-      
+      puppy.currentStateIndex == states.ROLLING &&
+        handleTrails(puppy, trailsPool);
+
       if (puppy.currentStateIndex == states.DYING) {
         hide && canvas.animate([{ opacity: 1 }, { opacity: 0 }], 3000);
         const fadeout =
@@ -220,9 +217,14 @@ window.addEventListener("load", () => {
 
           drawables = drawables.filter((el) => el != en);
           if (en instanceof Enemy) {
-            if (puppy.currentStateIndex == states.ROLLING || puppy.py+puppy.physicalWidth < en.py) {
+            if (
+              puppy.currentStateIndex == states.ROLLING ||
+              puppy.py + puppy.physicalWidth < en.py
+            ) {
               score += en.options.score;
-              puppy.currentStateIndex != states.ROLLING&&puppy.py < en.py && (puppy.vy = -puppy.vy);
+              puppy.currentStateIndex != states.ROLLING &&
+                puppy.py < en.py &&
+                (puppy.vy = -puppy.vy);
             } else if (puppy.currentStateIndex != states.DAZED) {
               puppy.lives.decrementLives();
               puppy.lives.lives
@@ -240,15 +242,16 @@ window.addEventListener("load", () => {
 
   document.getElementById("loader").style.display = "none";
   play.style.display = "block";
-  
   document.addEventListener("fullscreenchange", () => {
     continueAnimating = document.fullscreenElement;
-    !document.fullscreenElement&&music.pause();
-    !document.fullscreenElement&&run.pause();
+    setTimeout(() => {
+      
+      !document.fullscreenElement && music.pause();
+      !document.fullscreenElement && run.pause();
+    }, 100);
     continueAnimating
       ? animate(0)
       : play.style.display != "block" &&
         (document.getElementById("click").style.display = "block");
   });
-  
 });
