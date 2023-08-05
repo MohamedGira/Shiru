@@ -8,7 +8,8 @@ export class InputHandler {
     this.touchStart = null;
     this.touchCurrent = null;
     this.touchY = 0;
-    this.touchThreshold = 50;
+    this.touchThreshold = 30;
+    this.deltaX=0;
     this.acceptedKeys = [
       "KeyW",
       "ArrowUp",
@@ -77,12 +78,12 @@ export class InputHandler {
         this.handleSwipe(
           "right",
           event.changedTouches[0].clientX - this.touchStart.x >
-            this.touchThreshold
+            5
         );
         this.handleSwipe(
           "left",
           this.touchStart.x - event.changedTouches[0].clientX >
-            this.touchThreshold
+          5
         );
         this.handleSwipe(
           "down",

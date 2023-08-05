@@ -19,6 +19,8 @@ export class TouchPad {
     this.py = py;
     this.innerpx = innerpx;
     this.innerpy = innerpy;
+    this.deltaXPercent =undefined ;
+
   }
   setInnerPos(px, py) {
     this.innerpx = px;
@@ -35,6 +37,7 @@ export class TouchPad {
         this.innerpx=this.px+Math.cos(Math.atan2(mappedY-this.py,mappedX-this.px))*this.midRadus;
         this.innerpy=this.py+Math.sin(Math.atan2(mappedY-this.py,mappedX-this.px))*this.midRadus;
     }
+    this.deltaXPercent = (this.innerpx - this.px) / this.midRadus;
   }
   resetInnerPos() {
     this.innerpx = this.px;
