@@ -87,7 +87,9 @@ export class Dog extends Terrestrial {
 
     this.currentState.enter();
   }
-
+  jump(){
+    this.vy += this.jumpVelocity;
+  }
   update(lastKey, isPress) {
     this.px = Math.min(
       this.px,

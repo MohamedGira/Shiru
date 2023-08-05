@@ -10,7 +10,7 @@ export class Jumping extends State {
     );
   }
   enter() {
-    this.player.vy += this.player.jumpVelocity;
+    this.player.jump()
     super.enter();
   }
 
