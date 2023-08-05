@@ -9,7 +9,7 @@ import { showMessage } from "./utils/showMessage.js";
 import { Heart } from "./Heart.js";
 import { InputHandler, getCanvasCoordinates } from "./Dog/InputHandler.js";
 import { states } from "./Dog/States/State.js";
-import { Dog } from "./Dog/Dog.js";
+import { Dog, run } from "./Dog/Dog.js";
 import { CollisionDetector } from "./CollisionDetector.js";
 import { TouchPad, button } from "./Dog/Touchpad.js";
 import { isMobile } from "./utils/checkMobile.js";
@@ -71,7 +71,7 @@ window.addEventListener("load", () => {
   }
 
   const inputHandler = new InputHandler();
-  let t = new TouchPad(
+  let touchpad = new TouchPad(
     ctx,
     100,
     30,
@@ -80,8 +80,8 @@ window.addEventListener("load", () => {
     canvas.width - 120,
     canvas.height - 120
   );
-
   let rollbtn = new button(ctx, 0, 10, CANVAS_HEIGHT - 120, { scale: 0.6 });
+
   let score = 0;
   let passed = 0,
     lastTime = 0;
@@ -92,7 +92,7 @@ window.addEventListener("load", () => {
   let hide = true;
 
   canvas.addEventListener("click", () => {
-    if (!document.fullscreenElement&&play.style.display=="none") {
+    if (!document.fullscreenElement && play.style.display == "none") {
       music.play();
       canvas.requestFullscreen().catch((err) => console.log(err));
       screen.orientation.lock("landscape");
@@ -124,6 +124,7 @@ window.addEventListener("load", () => {
   let enemyInterval = 0;
   let filterInterval = 0;
   let isphone = isMobile();
+  let totalpassed = 0;
   function animate(timeStamp) {
     continueAnimating && requestAnimationFrame(animate);
 
@@ -162,33 +163,38 @@ window.addEventListener("load", () => {
       }
 
       drawables.forEach((enemy) => {
-        enemy.animate();
+        enemy.animate(deltaTime);
       });
       const { rectangleWidth, rectangleHeight, deltaHeight, deltaWidth } =
         getCanvasCoordinates();
       inputHandler.touchCurrent
-        ? t.handleInnerPos(
+        ? touchpad.handleInnerPos(
             ((inputHandler.touchCurrent.x - deltaWidth) / rectangleWidth) *
               CANVAS_WIDTH,
             ((inputHandler.touchCurrent.y - deltaHeight) / rectangleHeight) *
               CANVAS_HEIGHT
           )
-        : t.resetInnerPos();
+        : touchpad.resetInnerPos();
       [...boomsPool, ...trailsPool].forEach((boom) => {
         if (boom.object.scale <= 0.2) {
           boom.isActive = false;
         }
-        boom.isActive && boom.object.animate();
+        boom.isActive && boom.object.animate(deltaTime);
       });
 
       showMessage(ctx, `Score: ${score}`);
       puppy.draw();
-      puppy.update(inputHandler.lastKey, inputHandler.isPress);
+      puppy.update(
+        inputHandler.lastKey,
+        inputHandler.isPress,
+        touchpad.deltaXPercent,
+        deltaTime
+      );
       if (puppy.currentStateIndex == states.ROLLING) {
         handleTrails(puppy);
       }
       puppy.lives.draw();
-      isphone && t.draw();
+      isphone && touchpad.draw();
       isphone && rollbtn.draw();
       if (puppy.currentStateIndex == states.DYING) {
         hide && canvas.animate([{ opacity: 1 }, { opacity: 0 }], 3000);
@@ -231,11 +237,13 @@ window.addEventListener("load", () => {
             (en.physicalWidth * 1.2) / ex.object.sequence.frameWidth
           );
           ex.isActive = true;
+
           drawables = drawables.filter((el) => el != en);
           if (en instanceof Enemy) {
-            if (puppy.currentStateIndex == states.ROLLING)
+            if (puppy.currentStateIndex == states.ROLLING || puppy.py < en.py) {
               score += en.options.score;
-            else if (puppy.currentStateIndex != states.DAZED) {
+              puppy.currentStateIndex != states.ROLLING&&puppy.py < en.py && (puppy.vy = -puppy.vy);
+            } else if (puppy.currentStateIndex != states.DAZED) {
               puppy.lives.decrementLives();
               puppy.lives.lives
                 ? puppy.setState(states.DAZED)
@@ -254,6 +262,11 @@ window.addEventListener("load", () => {
 
   document.addEventListener("fullscreenchange", () => {
     continueAnimating = document.fullscreenElement;
-    continueAnimating ?animate(0):(play.style.display!="block"&&(document.getElementById("click").style.display="block"));
+    !document.fullscreenElement&&music.pause();
+    !document.fullscreenElement&&run.pause();
+    continueAnimating
+      ? animate(0)
+      : play.style.display != "block" &&
+        (document.getElementById("click").style.display = "block");
   });
 });
