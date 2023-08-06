@@ -143,11 +143,7 @@ canvas {
   gap: 1rem;
 }
 
-@media screen and (max-width: 800px) {
-  .content article {
-    margin: 0rem 5rem;
-    padding: 0;
-  }
+
   @media screen and (max-width: 768px) {
     nav {
         flex-direction: column;
@@ -168,10 +164,10 @@ canvas {
         height: auto;
     }
 
-    .article {
+  article {
         margin-top: 10px;
     }
-}
+
 }
 
 .loader {
