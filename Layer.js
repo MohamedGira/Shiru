@@ -9,10 +9,10 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./utils/globals.js";
       this.puppySpeed = 1;
     }
     draw() {
-      this.ctx.drawImage(this.img, this.position, 0, 2400, CANVAS_HEIGHT);
       if (Math.abs(this.position) > 2400 - CANVAS_WIDTH) {
         this.ctx.drawImage(this.img, this.position + 2400, 0, 2400, CANVAS_HEIGHT);
       }
+      this.ctx.drawImage(this.img, this.position, 0, 2400, CANVAS_HEIGHT);
       if (Math.abs(this.position) >0 ) {
         this.ctx.drawImage(this.img, this.position - 2400, 0, 2400, CANVAS_HEIGHT);
       }

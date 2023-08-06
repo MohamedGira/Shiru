@@ -44,6 +44,7 @@ window.addEventListener("load", () => {
     { drawable: Worm, scale: 2 },
     { drawable: Heart, scale: 1 },
   ];
+
   let bgs = getBgs(ctx);
   //pooling design pattern
   let boomsPool = [];
@@ -62,7 +63,6 @@ window.addEventListener("load", () => {
   const inputHandler = new InputHandler(canvas);
 
   
-
   let score = 0;
   let passed = 0,
     lastTime = 0;
