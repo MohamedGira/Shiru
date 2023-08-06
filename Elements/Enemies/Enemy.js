@@ -38,7 +38,7 @@ export class Enemy extends Drawable {
 
 
 export class EnemyA extends Enemy {
-  static sequence=getSequence('enemy1Img',293,153,6,0);
+  static sequenceArgs=['enemy1Img',293,153,6,0];
   constructor(
     canvas,
     animationSpeed,
@@ -47,6 +47,7 @@ export class EnemyA extends Enemy {
     scale,
     foe
   ) {
+    if(!EnemyA.sequence)EnemyA.sequence=getSequence(...EnemyA.sequenceArgs);
     super(canvas, EnemyA.sequence, animationSpeed, renderAtX, renderAtY, scale, foe);
   }
   update(passed) {
@@ -57,8 +58,7 @@ export class EnemyA extends Enemy {
 }
 
 export class EnemyB extends Enemy {
-  static sequence=getSequence('enemy2Img',266,188,6,0);
-
+  static sequenceArgs=['enemy2Img',266,188,6,0];
   constructor(
     canvas,
     animationSpeed,
@@ -67,6 +67,7 @@ export class EnemyB extends Enemy {
     scale,
     foe
   ) {
+    if(!EnemyB.sequence)EnemyB.sequence=getSequence(...EnemyB.sequenceArgs);
     super(canvas, EnemyB.sequence, animationSpeed, renderAtX, renderAtY, scale, foe);
     this.setOriginalSpeed(this.animationSpeed*-3)
     this.oscillateY(Math.random() * 5, 100);
@@ -75,7 +76,7 @@ export class EnemyB extends Enemy {
 }
 
 export class EnemyD extends Enemy {
-  static sequence=getSequence('enemy4Img',213,212,9,0);
+  static sequenceArgs=['enemy4Img',213,212,9,0];
 
   constructor(
     canvas,
@@ -85,6 +86,7 @@ export class EnemyD extends Enemy {
     scale,
     foe
   ) {
+    if(!EnemyD.sequence)EnemyD.sequence=getSequence(...EnemyD.sequenceArgs);
     super(canvas, EnemyD.sequence, animationSpeed, renderAtX, renderAtY, scale, foe);
     this.randomizePosition();
     this.moveEvery = Math.floor(Math.random() * 200 + 100);

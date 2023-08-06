@@ -1,19 +1,16 @@
 import Drawable from "../Interfaces/Drawable.js";
 import Sequence from "../utils/Sequence.js";
+import { getSequence } from "../utils/getSequence.js";
 
-const explosionSequence = new Sequence(
-  document.getElementById("boomImg"),
-  200,
-  179,
-  5,
-  0
-);
+
 
 export class Explosion extends Drawable {
+  static sequenceArgs = ["boomImg", 200, 179, 5, 0];
   constructor(canvas, animationSpeed, renderAtX, renderAtY, scale = 1) {
+    if (!Explosion.sequence) Explosion.sequence = getSequence(...Explosion.sequenceArgs);
     super(
       canvas,
-      explosionSequence,
+      Explosion.sequence,
       animationSpeed,
       renderAtX,
       renderAtY,

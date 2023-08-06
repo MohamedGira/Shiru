@@ -4,8 +4,9 @@ import { Enemy } from "./Enemy.js";
 
 
 export class Ghost extends Enemy {
-  static sequence = getSequence("enemy3Img", 218, 177, 6, 0);
+  static sequenceArgs = ["enemy3Img", 218, 177, 6, 0];
   constructor(canvas, animationSpeed, renderAtX, renderAtY, scale, foe) {
+    if (!Ghost.sequence) Ghost.sequence = getSequence(...Ghost.sequenceArgs);
     super(
       canvas,
       Ghost.sequence,

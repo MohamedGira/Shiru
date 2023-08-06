@@ -1,12 +1,13 @@
 import Drawable from "../Interfaces/Drawable.js";
 import Sequence from "../utils/Sequence.js";
+import { getSequence } from "../utils/getSequence.js";
 import { CANVAS_WIDTH } from "../utils/globals.js";
 import { showMessage } from "../utils/showMessage.js";
 
 
-const liveSequence = new Sequence(document.getElementById('livesImg'), 50, 50, 1, 0);
 
 export class Lives extends Drawable {
+  static sequenceArgs = ["livesImg", 50, 50, 1, 0];
   constructor(
     canvas,
     animationSpeed,
@@ -15,7 +16,8 @@ export class Lives extends Drawable {
     scale = 1,
     options = { initialLives: 3 }
   ) {
-    super(canvas, liveSequence, animationSpeed, renderAtX, renderAtY, scale);
+    if (!Lives.sequence) Lives.sequence = getSequence(...Lives.sequenceArgs);
+    super(canvas, Lives.sequence, animationSpeed, renderAtX, renderAtY, scale);
     this.lives =options.initialLives;
   }
   incrementLives() {

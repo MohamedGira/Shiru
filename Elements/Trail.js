@@ -1,22 +1,24 @@
 import Drawable from "../Interfaces/Drawable.js";
 import Sequence from "../utils/Sequence.js";
+import { getSequence } from "../utils/getSequence.js";
 
 
 
 
-const explosionSequence = new Sequence(document.getElementById("fireImg"), 100, 90, 1, 0);
 
 export class Trail extends Drawable {
+  static sequenceArgs = ["fireImg", 100, 90, 1, 0];
   constructor(canvas, animationSpeed, renderAtX, renderAtY, scale = 1) {
+    if (!Trail.sequence) Trail.sequence = getSequence(...Trail.sequenceArgs);
     super(
       canvas,
-      explosionSequence,
+      Trail.sequence,
       animationSpeed,
       renderAtX,
       renderAtY,
       scale
     );
-    !Trail.prototype.sequence&&(Trail.prototype.sequence=new Sequence(document.getElementById("fireImg"), 100, 90, 1, 0))
+    
   }
 
   
