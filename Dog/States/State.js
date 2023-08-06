@@ -46,4 +46,5 @@ export class State {
   handleInput() {
     this.player.lives.lives<=0&&this.player.currentStateIndex!=states.DYING&&this.player.setState(states.DYING);
   }
+  leave(){}
 }

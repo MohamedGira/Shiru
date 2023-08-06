@@ -1,6 +1,9 @@
 import { PlayerSpeed } from "../Dog.js";
 import { State, states } from "./State.js";
 
+export let run = document.getElementById("runSound");
+run.loop = true;
+run.volume = .1;
 export class Running extends State {
   constructor(player, sequence) {
     super(
@@ -12,6 +15,7 @@ export class Running extends State {
   }
   enter() {
     super.enter();
+    run.play();
   }
 
   handleInput(lastKey, isPress = false, deltaXPercent =undefined) {
@@ -46,5 +50,9 @@ export class Running extends State {
       this.player.animationSpeed = this.animationSpeed;
     }
     super.handleInput();
+  }
+  leave(){
+    console.log('hae')
+     run.pause();
   }
 }
