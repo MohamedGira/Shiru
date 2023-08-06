@@ -24,14 +24,13 @@ export class Enemy extends Drawable {
     this.exploded=false;
     this.foe=foe;
     this.orignalspeed=this.vx;
-    
   }
 
 
-  update(passed) {
+  update(deltaTime) {
     this.setVelocityX(this.orignalspeed-this.foe.vx*.2);
     this.outOfScreen=this.isoutOfScreen();
-    super.update(passed);
+    super.update(deltaTime);
   }
 }
 
@@ -89,21 +88,25 @@ export class EnemyD extends Enemy {
     if(!EnemyD.sequence)EnemyD.sequence=getSequence(...EnemyD.sequenceArgs);
     super(canvas, EnemyD.sequence, animationSpeed, renderAtX, renderAtY, scale, foe);
     this.randomizePosition();
-    this.moveEvery = Math.floor(Math.random() * 200 + 100);
+    this.moveEvery = Math.floor(Math.random() * 3000+1000);
+    this.movepassed=0;
   }
   randomizePosition() {
-    this.newX = (Math.random() * CANVAS_WIDTH) / 2;
-    this.newY = (Math.random() * CANVAS_HEIGHT) / 2;
+    this.newX = this.foe.px;
+    this.newY = this.foe.py;
   }
   update(deltaTime) {
-    if (this.index % this.moveEvery == 0) {
+    super.update(deltaTime);
+
+    this.movepassed+=deltaTime;
+    if (this.movepassed > this.moveEvery ) {
+      this.movepassed=0;
       this.randomizePosition();
-      this.vx = (this.newX - this.px) / 50;
-      this.vy = (this.newY - this.py) / 50;
+      this.setOriginalSpeed ((this.newX - this.px) / 50);
+      this.setVelocityY((this.newY - this.py) / 50);
     }
     this.vx *= 0.99;
     this.vy *= 0.99;
 
-    super.update(deltaTime);
   }
 }
