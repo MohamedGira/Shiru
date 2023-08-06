@@ -52,7 +52,6 @@ export class Running extends State {
     super.handleInput();
   }
   leave(){
-    console.log('hae')
      run.pause();
   }
 }
