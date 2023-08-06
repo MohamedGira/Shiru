@@ -13,9 +13,9 @@ export class Dying extends State {
     super.enter();
   }
 
-  handleInput() {    super.handleInput();
-
-    if(Math.floor(this.player.index*this.player.animationSpeed)>=this.sequence.framesCount-1)
-      this.player.index--;
+  handleInput() {
+    super.handleInput();
+    if(this.player.index>=this.sequence.framesCount-1)
+      this.player.index=this.sequence.framesCount-1
   }
 }

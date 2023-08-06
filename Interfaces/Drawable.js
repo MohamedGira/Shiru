@@ -29,14 +29,14 @@ class Drawable extends Physical {
     this.physicalHeightWithSpaces =
       (this.sequence.frameHeight * this.scale) / this.sequence.compressionScale;
     this.orignalspeed = 0;
-    this.passed=0
+    this.passed = 0;
   }
   draw() {
     try {
       this.ctx.drawImage(
         this.sequence.image,
-        this.sequence.frames[this.index].x,
-        this.sequence.frames[this.index].y,
+        this.sequence.frames[this.index % this.sequence.frames.length].x,
+        this.sequence.frames[this.index % this.sequence.frames.length].y,
         this.sequence.compressedframeWidth,
         this.sequence.compressedframeHeight,
         this.px,
@@ -52,13 +52,11 @@ class Drawable extends Physical {
     this.orignalspeed = speed;
   }
   update(deltaTime) {
-    this.passed+=deltaTime
-    if (this.passed>20/this.animationSpeed)
-      {
-        this.index += 1;
-        this.passed=0
-      }
-    this.index %= this.sequence.frames.length;
+    this.passed += deltaTime;
+    if (this.passed > 20 / this.animationSpeed) {
+      this.index += 1;
+      this.passed = 0;
+    }
     super.update();
   }
   animate(deltaTime) {

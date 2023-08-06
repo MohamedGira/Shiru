@@ -103,7 +103,7 @@ export class Dog extends Terrestrial {
       this.vy = 0;
       this.py = 10;
     }
-    this.currentState.handleInput(lastKey, isPress,deltaXPercent);
     super.update(deltaTime);
+    this.currentState.handleInput(lastKey, isPress,deltaXPercent);
   }
 }

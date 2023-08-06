@@ -39,7 +39,9 @@ export class State {
   }
   enter() {
     this.player.sequence = this.sequence;
+    this.player.index=0;
     this.handleInput();
+
   }
   handleInput() {
     this.player.lives.lives<=0&&this.player.currentStateIndex!=states.DYING&&this.player.setState(states.DYING);

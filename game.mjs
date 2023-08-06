@@ -58,7 +58,7 @@ window.addEventListener("load", () => {
 
   const inputHandler = new InputHandler(canvas);
 
-  let rollbtn = new button(ctx, 0, 10, CANVAS_HEIGHT - 120, { scale: 0.6 });
+  let rollbtn = new button(ctx, 0, 10, CANVAS_HEIGHT - 140, { scale: 0.6 });
 
   let score = 0;
   let passed = 0,
@@ -219,7 +219,7 @@ window.addEventListener("load", () => {
           if (en instanceof Enemy) {
             if (
               puppy.currentStateIndex == states.ROLLING ||
-              puppy.py + puppy.physicalWidth < en.py
+              puppy.py + puppy.physicalHeight < en.py
             ) {
               score += en.options.score;
               puppy.currentStateIndex != states.ROLLING &&
