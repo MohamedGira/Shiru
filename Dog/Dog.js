@@ -92,7 +92,7 @@ export class Dog extends Terrestrial {
       this.px,
       CANVAS_WIDTH - this.currentState.sequence.frameWidth * this.scale
     );
-    this.currentStateIndex != states.DYING && (this.px = Math.max(this.px, 0));
+    this.currentStateIndex != states.DYING && (this.px = Math.max(this.px, 100));
     if (this.py < 0) {
       this.ay = 0;
       this.vy = 0;

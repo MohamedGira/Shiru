@@ -47,7 +47,7 @@ export class TouchPad {
   draw() {
     this.ctx.beginPath();
     this.ctx.arc(this.px, this.py, this.outerRadius, 0, 2 * Math.PI);
-    this.ctx.fillStyle = "rgba(255,255,255,.7)";
+    this.ctx.fillStyle = "rgba(255,255,255,.6)";
     this.ctx.strokeStyle = "rgba(0,0,0,1)";
     this.ctx.fill();
     this.ctx.beginPath();
@@ -55,7 +55,6 @@ export class TouchPad {
     this.ctx.fillStyle = "rgba(0,0,0,.4)";
     this.ctx.strokeStyle = "rgba(0,0,0,.2)";
     this.ctx.stroke()
-    this.ctx.fill();
 
     this.ctx.beginPath();
     this.ctx.arc(this.innerpx, this.innerpy, this.innerRadius, 0, 2 * Math.PI);

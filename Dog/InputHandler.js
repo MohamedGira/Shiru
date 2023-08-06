@@ -15,12 +15,18 @@ export class InputHandler {
       canvas.getContext("2d"),
       100,
       30,
-      canvas.width - 120,
+      120,
       canvas.height - 120,
-      canvas.width - 120,
+      120,
       canvas.height - 120
     );
-    this.rollbtn = new button(canvas.getContext("2d"), 0, 10, CANVAS_HEIGHT - 140, { scale: 0.6 });
+    this.rollbtn = new button(
+      canvas.getContext("2d"),
+      0,
+      canvas.width-140,
+      canvas.height - 140,
+      { scale: 0.6 }
+    );
     this.acceptedKeys = [
       "KeyW",
       "ArrowUp",
@@ -55,10 +61,10 @@ export class InputHandler {
     });
     window.addEventListener("touchstart", (event) => {
       if (
-        event.changedTouches[event.changedTouches.length - 1].clientX <
-          window.innerWidth * (250 / CANVAS_WIDTH) &&
+        event.changedTouches[event.changedTouches.length - 1].clientX >
+          window.innerWidth * ((CANVAS_WIDTH-230) / CANVAS_WIDTH) &&
         event.changedTouches[event.changedTouches.length - 1].clientY >
-          window.innerHeight * (1 - 250 / CANVAS_HEIGHT)
+          window.innerHeight * (1 - 230 / CANVAS_HEIGHT)
       ) {
         this.handleSwipe("roll", true);
       }
@@ -69,7 +75,7 @@ export class InputHandler {
       let { deltaWidth, deltaHeight, rectangleWidth, rectangleHeight } =
         getCanvasCoordinates();
       if (
-        touchStart.x > deltaWidth + rectangleWidth * (1 - 330 / CANVAS_WIDTH) &&
+        touchStart.x < deltaWidth + rectangleWidth * (330 / CANVAS_WIDTH) &&
         touchStart.y > deltaHeight + rectangleHeight * (1 - 330 / CANVAS_HEIGHT)
       ) {
         this.touchStart = touchStart;
@@ -157,12 +163,12 @@ export class InputHandler {
     }
   }
 
-  handleTouchPad(){
-    const { rectangleWidth, rectangleHeight, deltaHeight, deltaWidth } =getCanvasCoordinates();
+  handleTouchPad() {
+    const { rectangleWidth, rectangleHeight, deltaHeight, deltaWidth } =
+      getCanvasCoordinates();
     this.touchCurrent
       ? this.touchpad.handleInnerPos(
-          ((this.touchCurrent.x - deltaWidth) / rectangleWidth) *
-            CANVAS_WIDTH,
+          ((this.touchCurrent.x - deltaWidth) / rectangleWidth) * CANVAS_WIDTH,
           ((this.touchCurrent.y - deltaHeight) / rectangleHeight) *
             CANVAS_HEIGHT
         )
