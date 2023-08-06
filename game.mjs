@@ -11,10 +11,13 @@ import { Ghost } from "./Elements/Enemies/Ghost.js";
 import { showMessage } from "./utils/showMessage.js";
 import { InputHandler } from "./Dog/InputHandler.js";
 import { states } from "./Dog/States/State.js";
-import { Dog, run } from "./Dog/Dog.js";
-import { TouchPad, button } from "./Dog/Touchpad.js";
+import { Dog } from "./Dog/Dog.js";
+
+import { button } from "./Dog/Touchpad.js";
 import { CollisionDetector } from "./utils/CollisionDetector.js";
 import { isMobile } from "./utils/checkMobile.js";
+import { run } from "./Dog/States/Running.js";
+
 
 export const canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
@@ -28,10 +31,10 @@ myFont.load().then(function (font) {
   document.fonts.add(font);
 });
 let continueAnimating = true;
+
+
+
 window.addEventListener("load", () => {
-  let run = document.getElementById("runSound");
-  run.loop = true;
-  run.volume = 0.1;
 
   let drawablesTypes = [
     { drawable: EnemyA, scale: 0.3 },
@@ -58,7 +61,7 @@ window.addEventListener("load", () => {
 
   const inputHandler = new InputHandler(canvas);
 
-  let rollbtn = new button(ctx, 0, 10, CANVAS_HEIGHT - 140, { scale: 0.6 });
+  
 
   let score = 0;
   let passed = 0,
@@ -155,7 +158,7 @@ window.addEventListener("load", () => {
       puppy.draw();
       puppy.lives.draw();
       isphone && inputHandler.touchpad.draw();
-      isphone && rollbtn.draw();
+      isphone && inputHandler.rollbtn.draw();
 
       /*Updates&handlings*/
       isphone && inputHandler.handleTouchPad();
@@ -245,7 +248,6 @@ window.addEventListener("load", () => {
   document.addEventListener("fullscreenchange", () => {
     continueAnimating = document.fullscreenElement;
     setTimeout(() => {
-      
       !document.fullscreenElement && music.pause();
       !document.fullscreenElement && run.pause();
     }, 100);

@@ -1,5 +1,5 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
-import { TouchPad } from "./Touchpad.js";
+import { TouchPad, button } from "./Touchpad.js";
 
 export class InputHandler {
   constructor(canvas) {
@@ -20,6 +20,7 @@ export class InputHandler {
       canvas.width - 120,
       canvas.height - 120
     );
+    this.rollbtn = new button(canvas.getContext("2d"), 0, 10, CANVAS_HEIGHT - 140, { scale: 0.6 });
     this.acceptedKeys = [
       "KeyW",
       "ArrowUp",

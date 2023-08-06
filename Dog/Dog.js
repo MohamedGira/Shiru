@@ -22,9 +22,7 @@ const timespan = 20;
 //dogstuff
 export const PlayerSpeed = 5;
 
-export let run = document.getElementById("runSound");
-run.loop = true;
-run.volume = .1;
+
 
 let ground = CANVAS_HEIGHT * 0.87;
 
@@ -81,12 +79,9 @@ export class Dog extends Terrestrial {
   setState(state) {
     state = Math.min(state, this.states.length - 1);
     this.index = 0;
-    
+    this.currentState.leave();
     this.currentStateIndex = state;
     this.currentState = this.states[state];
-    if ((state == states.RUNNING)) run.play();
-    else run.pause();
-
     this.currentState.enter();
   }
   jump(){
