@@ -1,5 +1,9 @@
+import { TouchPad2 } from "../Touchpad2.mjs";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
 import { TouchPad, button } from "./Touchpad.js";
+
+const gamePlayer = document.getElementById("gamePlayer");
+const controlButtons = document.getElementById("controlButtons");
 
 export class InputHandler {
   constructor(canvas) {
@@ -8,24 +12,22 @@ export class InputHandler {
     this.activeKeys = new Set();
     this.touchStart = null;
     this.touchCurrent = null;
-    this.touchY = 0;
-    this.touchThreshold = 30;
-    this.deltaX = 0;
-    this.touchpad = new TouchPad(
-      canvas.getContext("2d"),
-      100,
+    this.touchThresholdY = .5;
+    this.touchThresholdX = .05;
+
+    this.touchpad2 = new TouchPad2(gamePlayer, canvas, controlButtons);
+
+    this.touchpad2.addButton(
+      document.getElementById("rollBtn"),
+      20,
       30,
-      120,
-      canvas.height - 120,
-      120,
-      canvas.height - 120
-    );
-    this.rollbtn = new button(
-      canvas.getContext("2d"),
-      0,
-      canvas.width-140,
-      canvas.height - 140,
-      { scale: 0.6 }
+      () => {
+        this.handleSwipe("roll", true);
+        setTimeout(() => {
+          this.handleSwipe("roll", false);
+        }, 300);
+      },
+      { width: 70 }
     );
     this.acceptedKeys = [
       "KeyW",
@@ -59,65 +61,29 @@ export class InputHandler {
         }
       }
     });
-    window.addEventListener("touchstart", (event) => {
-      if (
-        event.changedTouches[event.changedTouches.length - 1].clientX >
-          window.innerWidth * ((CANVAS_WIDTH-230) / CANVAS_WIDTH) &&
-        event.changedTouches[event.changedTouches.length - 1].clientY >
-          window.innerHeight * (1 - 230 / CANVAS_HEIGHT)
-      ) {
-        this.handleSwipe("roll", true);
-      }
-      let touchStart = {
-        x: event.changedTouches[0].clientX,
-        y: event.changedTouches[0].clientY,
-      };
-      let { deltaWidth, deltaHeight, rectangleWidth, rectangleHeight } =
-        getCanvasCoordinates();
-      if (
-        touchStart.x < deltaWidth + rectangleWidth * (330 / CANVAS_WIDTH) &&
-        touchStart.y > deltaHeight + rectangleHeight * (1 - 330 / CANVAS_HEIGHT)
-      ) {
-        this.touchStart = touchStart;
-      }
-    });
-    window.addEventListener("touchmove", (event) => {
-      if (this.touchStart) {
-        this.touchCurrent = {
-          x: event.changedTouches[0].clientX,
-          y: event.changedTouches[0].clientY,
-        };
-        this.handleSwipe(
-          "up",
-          this.touchStart.y - event.changedTouches[0].clientY >
-            this.touchThreshold
-        );
-        this.handleSwipe(
-          "right",
-          event.changedTouches[0].clientX - this.touchStart.x > 5
-        );
-        this.handleSwipe(
-          "left",
-          this.touchStart.x - event.changedTouches[0].clientX > 5
-        );
-        this.handleSwipe(
-          "down",
-          event.changedTouches[0].clientY - this.touchStart.y >
-            this.touchThreshold
-        );
-        this.lastKey = getLastValue(this.activeKeys);
-      }
-    });
-    window.addEventListener("touchend", (event) => {
-      if (!event.touches.length) {
-        this.touchStart = null;
-        this.touchCurrent = null;
-        this.activeKeys.clear();
-        this.isPress = false;
-      }
-      this.handleSwipe("roll", false);
-    });
+    
   }
+
+  handleController(){
+      this.handleSwipe(
+        "up",
+        -this.touchpad2.controller.deltaYPercent > this.touchThresholdY
+      );
+      this.handleSwipe(
+        "right",
+        this.touchpad2.controller.deltaXPercent > this.touchThresholdX
+      );
+      this.handleSwipe(
+        "left",
+        -this.touchpad2.controller.deltaXPercent > this.touchThresholdX
+      );
+      this.handleSwipe(
+        "down",
+        this.touchpad2.controller.deltaYPercent > this.touchThresholdY
+      );
+      this.lastKey = getLastValue(this.activeKeys);
+  }
+
   handleSwipe(movename, condition) {
     if (condition && !this.activeKeys.has(movename)) {
       this.lastKey = movename;
@@ -162,18 +128,6 @@ export class InputHandler {
         break;
     }
   }
-
-  handleTouchPad() {
-    const { rectangleWidth, rectangleHeight, deltaHeight, deltaWidth } =
-      getCanvasCoordinates();
-    this.touchCurrent
-      ? this.touchpad.handleInnerPos(
-          ((this.touchCurrent.x - deltaWidth) / rectangleWidth) * CANVAS_WIDTH,
-          ((this.touchCurrent.y - deltaHeight) / rectangleHeight) *
-            CANVAS_HEIGHT
-        )
-      : this.touchpad.resetInnerPos();
-  }
 }
 function getLastValue(set) {
   let value;
@@ -181,42 +135,3 @@ function getLastValue(set) {
   return value;
 }
 
-export function getCanvasCoordinates() {
-  // Given data
-  const rectangleAspectRatio = CANVAS_WIDTH / CANVAS_HEIGHT; // Replace with your desired rectangle's aspect ratio
-  const screenWidth = window.innerWidth;
-  const screenHeight = window.innerHeight;
-  const screenAspectRatio = screenWidth / screenHeight;
-  let canvasStartX, canvasStartY, deltaHeight, deltaWidth;
-  // Calculate the dimensions of the rectangle to fit within the screen's boundaries
-  let rectangleWidth, rectangleHeight;
-  if (screenAspectRatio > rectangleAspectRatio) {
-    // Screen is wider than the rectangle
-    rectangleHeight = screenHeight;
-    rectangleWidth = screenHeight * rectangleAspectRatio;
-    canvasStartX = deltaWidth = (screenWidth - rectangleWidth) / 2;
-    canvasStartY = 0;
-    deltaHeight = 0;
-  } else {
-    // Screen is taller than the rectangle
-    rectangleWidth = screenWidth;
-    rectangleHeight = screenWidth / rectangleAspectRatio;
-    canvasStartX = deltaWidth = 0;
-    deltaHeight = canvasStartY = (screenHeight - rectangleHeight) / 2;
-  }
-
-  // Calculate the bottom left corner position
-  const bottomRightX = rectangleWidth;
-  const bottomRightY = screenHeight * (1 - rectangleHeight / 2);
-
-  return {
-    bottomRightX,
-    bottomRightY,
-    rectangleWidth,
-    rectangleHeight,
-    canvasStartX,
-    canvasStartY,
-    deltaHeight,
-    deltaWidth,
-  };
-}
