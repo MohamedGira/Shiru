@@ -45,11 +45,15 @@
         </nav>
         <p style="display: none;" id="click">Click the game to continue</p>
         <div class="withcontrols">
-            <div class="canvas-container">
-                <canvas id="game"></canvas>
+
+            <div class="game-player" id="gamePlayer">
                 <button id="play" class="playBtn"> <img id="btnImg" src="./assets/play.png" /> </button>
+                <div id="controlButtons">
+                </div>
+                <canvas id="game"></canvas>
                 <div id="loader" class="loader"></div>
             </div>
+
         </div>
         <div class="content">
             <article>
@@ -65,6 +69,7 @@
             </article>
         </div>
     </main>
+
     <footer>
         <p>Created by <a href="https://github.com/MohamedGira">Mohamed Gira <i class='bx bxl-github'></i></a>
     </footer>
@@ -109,6 +114,11 @@
     </ul>
     <script type="module" src="game.mjs"></script>
     <script type="module" src="otherscripts.mjs"></script>
+    <script type="module" src="Touchpad2.mjs"> </script>
+
+
+
+
 
 </body>
 

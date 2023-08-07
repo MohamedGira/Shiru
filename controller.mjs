@@ -19,32 +19,35 @@ export class Contoller {
         </div>
     </div>
     `;
-    this.outerCircle=this.element.querySelector("#outerCircle");
-    this.middleCircle=this.element.querySelector("#middleCircle");
-    this.innerCircle=this.element.querySelector("#innerCircle");
+    this.outerCircle = this.element.querySelector("#outerCircle");
+    this.middleCircle = this.element.querySelector("#middleCircle");
+    this.innerCircle = this.element.querySelector("#innerCircle");
     this.outerCircle.style.width = `${this.outerDiameter}px`;
     this.middleCircle.style.width = `${this.middleDiameter}px`;
     this.innerCircle.style.width = `${this.innerDiameter}px`;
     this.deltaXPercent = undefined;
     this.deltaYPercent = undefined;
+    this.touchStart = null;
 
-    
     this.element.addEventListener("touchstart", (event) => {
-      this.touchCurrent = {
+      this.touchStart = this.touchCurrent = {
         x: event.changedTouches[0].clientX,
         y: event.changedTouches[0].clientY,
       };
     });
     window.addEventListener("touchmove", (event) => {
-      this.touchCurrent = {
-        x: event.changedTouches[0].clientX,
-        y: event.changedTouches[0].clientY,
-      };
-      this.handleTouch(this.touchCurrent);
+      if (this.touchStart) {
+        this.touchCurrent = {
+          x: event.changedTouches[0].clientX,
+          y: event.changedTouches[0].clientY,
+        };
+        this.handleTouch(this.touchCurrent);
+      }
     });
     window.addEventListener("touchend", (event) => {
       if (!event.touches.length) {
         this.touchCurrent = null;
+        this.touchStart = null;
         this.isPress = false;
       }
       this.handleTouch(this.touchCurrent);
@@ -87,8 +90,10 @@ export class Contoller {
       this.innerCircle.style.top = `${y}px`;
     }
 
-    this.deltaXPercent = (x-this.middleDiameter/2) / (this.middleDiameter/2);
-    this.deltaYPercent = (y-this.middleDiameter/2) / (this.middleDiameter/2);
+    this.deltaXPercent =
+      (x - this.middleDiameter / 2) / (this.middleDiameter / 2);
+    this.deltaYPercent =
+      (y - this.middleDiameter / 2) / (this.middleDiameter / 2);
   }
   resetInnerPos() {
     this.deltaXPercent = undefined;
