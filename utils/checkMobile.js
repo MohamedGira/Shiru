@@ -1,5 +1,4 @@
 export function isMobile() {
-  console.log(navigator.userAgent);
     if (
     navigator.userAgent.match(/Android/gi) ||
     navigator.userAgent.match(/webOS/gi) ||

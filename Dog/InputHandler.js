@@ -1,4 +1,5 @@
 import { TouchPad2 } from "../Touchpad2.mjs";
+import { isMobile } from "../utils/checkMobile.js";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../utils/globals.js";
 import { TouchPad, button } from "./Touchpad.js";
 
@@ -15,9 +16,9 @@ export class InputHandler {
     this.touchThresholdY = .5;
     this.touchThresholdX = .05;
 
-    this.touchpad2 = new TouchPad2(gamePlayer, canvas, controlButtons);
+    this.touchpad2 =   isMobile()&&new TouchPad2(gamePlayer, canvas, controlButtons);
 
-    this.touchpad2.addButton(
+    this.touchpad2&&this.touchpad2.addButton(
       document.getElementById("rollBtn"),
       20,
       30,
@@ -65,6 +66,7 @@ export class InputHandler {
   }
 
   handleController(){
+    if(this.touchpad2){
       this.handleSwipe(
         "up",
         -this.touchpad2.controller.deltaYPercent > this.touchThresholdY
@@ -82,7 +84,7 @@ export class InputHandler {
         this.touchpad2.controller.deltaYPercent > this.touchThresholdY
       );
       this.lastKey = getLastValue(this.activeKeys);
-  }
+    }  }
 
   handleSwipe(movename, condition) {
     if (condition && !this.activeKeys.has(movename)) {

@@ -18,7 +18,6 @@ import { CollisionDetector } from "./utils/CollisionDetector.js";
 import { isMobile } from "./utils/checkMobile.js";
 import { run } from "./Dog/States/Running.js";
 
-
 export const canvas = document.getElementById("game");
 let ctx = canvas.getContext("2d");
 const timeInterval = 2000;
@@ -35,6 +34,7 @@ let continueAnimating = true;
 
 
 window.addEventListener("load", () => {
+  let gamePlayer=document.getElementById('gamePlayer');
 
   let drawablesTypes = [
     { drawable: EnemyA, scale: 0.3 },
@@ -61,8 +61,6 @@ window.addEventListener("load", () => {
   }
 
   const inputHandler = new InputHandler(canvas);
-
-  
   let score = 0;
   let passed = 0,
     lastTime = 0;
@@ -75,7 +73,7 @@ window.addEventListener("load", () => {
   canvas.addEventListener("click", () => {
     if (!document.fullscreenElement && play.style.display == "none") {
       music.play();
-      canvas.requestFullscreen().catch((err) => console.log(err));
+      gamePlayer.requestFullscreen().catch((err) => console.log(err));
       screen.orientation.lock("landscape");
     }
   });
@@ -96,7 +94,7 @@ window.addEventListener("load", () => {
     puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 3 });
     if (!document.fullscreenElement) {
       music.play();
-      canvas.requestFullscreen().catch((err) => console.log(err));
+      gamePlayer.requestFullscreen().catch((err) => console.log(err));
       screen.orientation.lock("landscape");
     }
     animate(0);
@@ -157,16 +155,15 @@ window.addEventListener("load", () => {
       showMessage(ctx, `Score: ${score}`);
       puppy.draw();
       puppy.lives.draw();
-      isphone && inputHandler.touchpad.draw();
-      isphone && inputHandler.rollbtn.draw();
+
 
       /*Updates&handlings*/
-      isphone && inputHandler.handleTouchPad();
-
+      isMobile() && inputHandler.handleController();
+      
       puppy.update(
         inputHandler.lastKey,
         inputHandler.isPress,
-        inputHandler.touchpad.deltaXPercent,
+        inputHandler.touchpad2?.controller?.deltaXPercent,
         deltaTime
       );
 
