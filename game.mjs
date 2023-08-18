@@ -244,10 +244,11 @@ window.addEventListener("load", () => {
   play.style.display = "block";
   document.addEventListener("fullscreenchange", () => {
     continueAnimating = document.fullscreenElement;
+    continueAnimating&&inputHandler.touchpad2.updateHtml();
     setTimeout(() => {
       !document.fullscreenElement && music.pause();
       !document.fullscreenElement && run.pause();
-    }, 100);
+    }, 600);
     continueAnimating
       ? animate(0)
       : play.style.display != "block" &&
