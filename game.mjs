@@ -255,3 +255,11 @@ window.addEventListener("load", () => {
         (document.getElementById("click").style.display = "block");
   });
 });
+window.onblur = function () {
+    music.pause()
+    run.pause()
+};
+window.onfocus = function () {
+  document.fullscreenElement && music.play()
+  document.fullscreenElement && run.play();
+};
