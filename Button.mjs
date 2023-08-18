@@ -17,7 +17,7 @@ export class Button {
     this.element.style.right = `${right}px`;
     this.element.style.bottom = `${bottom}px`;
     this.element.classList.add("gamebutton");
-    this.element.addEventListener("click", onClick);
+    this.element.addEventListener("touchstart", onClick);
     this.element.appendChild(this.img);
     this.radius=options.width/2;
   }
