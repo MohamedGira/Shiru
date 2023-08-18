@@ -19,20 +19,21 @@ export class TouchPad2 {
     });
     window.addEventListener("resize", () => {
       this.adjustTouchpadOverlay(this.canvas);
-      this.updateHtml(this.canvas.getBoundingClientRect().width);
+      this.updateHtml();
     });
   }
   addButton(img, bottom, right, onClick, options = { canvasWidthPercent: 5 }) {
     this.buttons.push(new Button(img, bottom, right, onClick, options));
     this.controlButtons.appendChild(this.buttons[this.buttons.length-1].element);
   }
-  updateHtml(canvasWidth){
+  updateHtml(){
+    let canvasWidth=this.canvas.getBoundingClientRect().width;
     this.buttons.forEach(button=>{
       button.updateHtml(canvasWidth);
     })
     this.controller.updateHtml(canvasWidth);
   }
-  adjustTouchpadOverlay(canvas) {
+  adjustTouchpadOverlay() {
     this.controlButtons.style.width = `${this.canvas.getBoundingClientRect().width}px`;
     this.controlButtons.style.height = `${this.canvas.getBoundingClientRect().height}px`;
     this.controlButtons.style.left = `${this.canvas.getBoundingClientRect().left}px`;
