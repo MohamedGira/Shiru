@@ -70,7 +70,8 @@ window.addEventListener("load", () => {
 
   let hide = true;
 
-  canvas.addEventListener("click", () => {
+  document.getElementById('gamePlayer').addEventListener("click", () => {
+    console.log('clickes')
     if (!document.fullscreenElement && play.style.display == "none") {
       music.play();
       gamePlayer.requestFullscreen().catch((err) => console.log(err));
@@ -244,7 +245,7 @@ window.addEventListener("load", () => {
   play.style.display = "block";
   document.addEventListener("fullscreenchange", () => {
     continueAnimating = document.fullscreenElement;
-    continueAnimating&&inputHandler.touchpad2.updateHtml();
+    isMobile()&&continueAnimating&&inputHandler.touchpad2.updateHtml();
     setTimeout(() => {
       !document.fullscreenElement && music.pause();
       !document.fullscreenElement && run.pause();
