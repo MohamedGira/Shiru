@@ -28,4 +28,4 @@ I'm excited to present **Shiru** and invite you to experience the thrill firstha
 ---
 
 **Stay connected:**
-- [LinkedIn](https://www.linkedin.com/in/YourUsername/](https://www.linkedin.com/in/mohamed-gira-604a4b209)
+- [LinkedIn](https://www.linkedin.com/in/mohamed-gira-604a4b209)
