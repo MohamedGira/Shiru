@@ -13,6 +13,8 @@ export class Button {
     this.img=img.cloneNode(true);
     this.img.style.width = `${options.width}px`;
     this.img.style.aspectRatio = 1;
+    this.img.style.userDrag='none';
+    this.img.style.userSelect='none';
     this.element.style.position = "absolute";
     this.element.style.right = `${right}px`;
     this.element.style.bottom = `${bottom}px`;
