@@ -278,10 +278,15 @@ window.addEventListener("load", () => {
   });
 });
 window.onblur = function () {
-    music.pause()
-    run.pause()
+  music.pause()
+  run.pause()
 };
 window.onfocus = function () {
-  document.fullscreenElement && music.play()
-  document.fullscreenElement && run.play();
+document.fullscreenElement && music.play()
+document.fullscreenElement && run.play();
 };
+run.onplay=()=>{
+  if(!continueAnimating){
+    run.pause()
+  }
+}
