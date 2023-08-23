@@ -82,19 +82,23 @@ window.addEventListener("load", () => {
 
   document.getElementById('gamePlayer').addEventListener("click", async () => {
     if (!document.fullscreenElement && play.style.display == "none") {
-      try{
+      
         requestFullScreen(gamePlayer);
-      }catch(err){
-        alert("this browser doesn't support Fullscreen API yet ;). Try with a different browser!")
-      }
+    
       screen.orientation.lock("landscape");
       music.play();
     }
   });
   play.addEventListener("click", async () => {
+    if(/^((?!chrome|android).)*safari/i.test(navigator.userAgent))
+      {
+        alert("this browser doesn't support Fullscreen API yet ;). Try with a different browser!")  
+        return;
+      }
+    
     play.style.display = "none";
     hide = true;
-    
+    console.log(navigator.userAgent)
     
     
     const fadeout = setInterval(() => {
@@ -110,13 +114,7 @@ window.addEventListener("load", () => {
     drawables = [];
     puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 3 });
     if (!document.fullscreenElement) {
-      try{
         requestFullScreen(gamePlayer);
-      }
-      catch(err){
-        console.log(err)
-        alert("this browser doesn't support Fullscreen API yet ;). Try with a different browser!")  
-      }
       screen.orientation.lock("landscape");
       music.play();
       animate(0);
