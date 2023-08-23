@@ -30,7 +30,17 @@ myFont.load().then(function (font) {
   document.fonts.add(font);
 });
 let continueAnimating = true;
-
+async function requestFullScreen(elem){
+  if (elem.requestFullscreen) {
+    await elem.requestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    await elem.msRequestFullscreen();
+  } else if (elem.mozRequestFullScreen) {
+    await elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) {
+    await elem.webkitRequestFullscreen();
+  }
+}
 
 
 window.addEventListener("load", () => {
@@ -70,17 +80,23 @@ window.addEventListener("load", () => {
 
   let hide = true;
 
-  document.getElementById('gamePlayer').addEventListener("click", () => {
-    console.log('clickes')
+  document.getElementById('gamePlayer').addEventListener("click", async () => {
     if (!document.fullscreenElement && play.style.display == "none") {
-      music.play();
-      gamePlayer.requestFullscreen().catch((err) => console.log(err));
+      try{
+        requestFullScreen(gamePlayer);
+      }catch(err){
+        alert("this browser doesn't support Fullscreen API yet ;). Try with a different browser!")
+      }
       screen.orientation.lock("landscape");
+      music.play();
     }
   });
-  play.addEventListener("click", () => {
+  play.addEventListener("click", async () => {
     play.style.display = "none";
     hide = true;
+    
+    
+    
     const fadeout = setInterval(() => {
       try {
         music.volume /= 0.9;
@@ -94,16 +110,21 @@ window.addEventListener("load", () => {
     drawables = [];
     puppy = new Dog(ctx, 0.4, 0, 250, 0.3, { initialLives: 3 });
     if (!document.fullscreenElement) {
-      music.play();
-      gamePlayer.requestFullscreen().catch((err) => console.log(err));
+      try{
+        requestFullScreen(gamePlayer);
+      }
+      catch(err){
+        console.log(err)
+        alert("this browser doesn't support Fullscreen API yet ;). Try with a different browser!")  
+      }
       screen.orientation.lock("landscape");
+      music.play();
+      animate(0);
     }
-    animate(0);
   });
 
   let enemyInterval = 0;
   let filterInterval = 0;
-  let isphone = isMobile();
   function animate(timeStamp) {
     continueAnimating && requestAnimationFrame(animate);
     //needed time intervals
@@ -159,7 +180,7 @@ window.addEventListener("load", () => {
 
 
       /*Updates&handlings*/
-      isMobile() && inputHandler.handleController();
+    isMobile()&&inputHandler.handleController();
       
       puppy.update(
         inputHandler.lastKey,
